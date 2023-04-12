@@ -20,7 +20,7 @@
             <ul class="list-drink">
                 <!-- js active으로 조절 -->
                 <!-- js soldout으로 조절 -->
-                <li><button class="btn-item red active" type="button">
+                <li><button class="btn-item red" type="button">
                     <img src="./img/red.svg" alt="오리지널 콜라">
                     <span class="drink-name">Original_Cola</span>
                     <span class="drink-price">1000원</span>
@@ -44,7 +44,7 @@
                     <span class="drink-price">1000원</span>
                     <strong class="soldout-text"><span>품절</span></strong>
                 </button></li>
-                <li><button class="btn-item green active" type="button">
+                <li><button class="btn-item green" type="button">
                     <img src="./img/green.svg" alt="초록 콜라">
                     <span class="drink-name">Green_Cola</span>
                     <span class="drink-price">1000원</span>
@@ -61,7 +61,7 @@
             <div class="counter-wrapper">
                 <!-- 잔액 표시 -->
                 <p class="inserted">
-                    잔액: <span>1,000원</span>
+                    잔액: <span></span>
                 </p>
                 <!-- 거스름돈 반환 -->
                 <button class="btn-return" type="button">거스름돈 반환</button>
@@ -72,16 +72,16 @@
                 <button class="btn-payment" type="button">입금</button>
                 <!-- 현재 카트 -->
                 <ul class="list-currentCart">
-                    <li class="cart-item">
+                    <!-- <li class="cart-item" data-type="Orange_Cola">
                             <img src="./img/red.svg" alt="오리지널 콜라">
                             <span class="drink-name">Original_Cola</span>
                             <span class="drink-count">1</span>
                     </li>
-                    <li class="cart-item">
+                    <li class="cart-item" data-type="Green_Cola">
                             <img src="./img/green.svg" alt="초록 콜라">
                             <span class="drink-name">Green_Cola</span>
                             <span class="drink-count">2</span>
-                    </li>
+                    </li> -->
                 </ul>
                 <!-- 획득 버튼 -->
                 <button class="btn-gain" type="submit">획득</button>
@@ -91,7 +91,7 @@
         <section class="section-reciept">
             <!-- 소지금 -->
             <div class="possessed">
-                <p>소지금: <span>25,000 원</span></p>
+                <p>소지금: <span></span></p>
             </div>
             <h2 class="a11y-hidden">영수증</h2>
             <!-- 획득한 음료 -->

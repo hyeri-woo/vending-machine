@@ -96,11 +96,14 @@ main {
     button.active {
         box-shadow: $main-color 0px 0px 0px 3px;
     }
-    // NEED TO WORK: soldout은 클릭할 수 없도록 처리
-    button:not(.soldout, .active):hover {
-        // box-shadow: $main-color 0px 0px 0px 3px;
+    button:not(.soldout):hover {
+        box-shadow: $main-color 0px 0px 0px 3px;
+        // background-color: rgba(0, 0, 0, 0.5);
+        // transition: all 0.3s;
+    }
+    button:not(.soldout):active {
         background-color: rgba(0, 0, 0, 0.5);
-        transition: all 0.3s;
+        transition: all 0.2s;
     }
     img {
         margin-bottom: 6px;
@@ -137,6 +140,9 @@ main {
         color: $bg-color;
         border: 6px double $bg-color;
         transform: rotate(-18deg);
+    }
+    button.soldout {
+        cursor: initial;;
     }
     button:not(.soldout) .soldout-text {
         display: none;

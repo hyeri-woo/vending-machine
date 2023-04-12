@@ -39,6 +39,7 @@ button {
   background: none;
   border: none;
   box-shadow: none;
+  cursor: pointer;
 }
 
 body {
@@ -87,9 +88,12 @@ main section {
 .list-drink button.active {
   box-shadow: #6327FE 0px 0px 0px 3px;
 }
-.list-drink button:not(.soldout, .active):hover {
+.list-drink button:not(.soldout):hover {
+  box-shadow: #6327FE 0px 0px 0px 3px;
+}
+.list-drink button:not(.soldout):active {
   background-color: rgba(0, 0, 0, 0.5);
-  transition: all 0.3s;
+  transition: all 0.2s;
 }
 .list-drink img {
   margin-bottom: 6px;
@@ -126,6 +130,9 @@ main section {
   color: #EAE8FE;
   border: 6px double #EAE8FE;
   transform: rotate(-18deg);
+}
+.list-drink button.soldout {
+  cursor: initial;
 }
 .list-drink button:not(.soldout) .soldout-text {
   display: none;
