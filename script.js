@@ -8,6 +8,7 @@ const totalPrice = document.querySelector(".total-price span");
 const listDrink = document.querySelector(".list-drink");
 const listCurrent = document.querySelector(".list-currentCart");
 const listFinal = document.querySelector(".list-finalCart");
+const modal = document.querySelector(".modal-wrapper");
 
 const drinkInfo = new Map();
 drinkInfo.set("Original_Cola", {color: "red", price: 1000, amount: 10});
@@ -17,10 +18,19 @@ drinkInfo.set("Cool_Cola", {color: "blue", price: 1000, amount: 10});
 drinkInfo.set("Green_Cola", {color: "green", price: 1000, amount: 10});
 drinkInfo.set("Orange_Cola", {color: "orange", price: 1000, amount: 10});
 
-let insertedMoney = 3000;
+const msgWarning = new Map();
+msgWarning.set("No More Item", "아이템 수량이 부족합니다.");
+msgWarning.set("Money Needed", "돈이 부족합니다");
+msgWarning.set("Remove Item from Cart", "음료수를 현재 장바구니에서 삭제하시겠습니까?");
+msgWarning.set("Unable to Get", "해당 음료수가 소진되었습니다. 구매는 더 이상 불가합니다.");
+msgWarning.set("Input Money", "돈을 입금해주세요");
+msgWarning.set("No More Money", "소지금이 부족합니다.");
+
+const currentCart = new Map();
+const finalCart = new Map();
+
+let insertedMoney = 10000;
 let possessedMoney = 30000;
-let currentCart = new Map();
-let finalCart = new Map();
 
 /* string 돈을 number로 바꾸어준다. */
 const moneyToNumber = function(str_money) {
@@ -38,11 +48,29 @@ const numberToMoney = function (num_money) {
 window.addEventListener("load", () => {
     inserted.textContent = numberToMoney(insertedMoney);
     possessed.textContent = numberToMoney(possessedMoney);
+    listDrink.querySelectorAll("li").forEach(item => {
+        const drinkName = item.querySelector(".drink-name").innerText;
+        item.querySelector(".drink-amount").textContent = drinkInfo.get(drinkName).amount;
+    })
+    currentCart.clear();
+    finalCart.clear();
 });
 
-// NEED TO WORK: current cart 업데이트
-const updateCurrentCart = function() {
-
+/* 모달창 처리 */ 
+// NEED TO WORK: YES 눌렀을 시에만 아이템 삭제
+const onModal = function(title, isRemove=false) {
+    modal.classList.add("on");
+    modal.querySelector("h2").textContent = title;
+    modal.querySelector("p").textContent = msgWarning.get(title);
+    modal.querySelector(".btn-cancel").addEventListener("click", () => {
+        modal.classList.remove("on");
+    });
+    modal.querySelector(".btn-yes").addEventListener("click", () => {
+        modal.classList.remove("on");
+        if(isRemove) {
+            isYes = true;
+        }
+    });
 }
 
 /* ------------------------------------------------ 음료수 버튼 클릭 */
@@ -50,78 +78,154 @@ const drinks = listDrink.querySelectorAll("button");
 drinks.forEach(item =>  {
     item.addEventListener("click", () => {
         let drinkName = item.querySelector(".drink-name").innerText;
-        let drinkColor = drinkInfo.get(drinkName).color;
-        let drinkPrice = drinkInfo.get(drinkName).price;   
+        let drinkPrice = drinkInfo.get(drinkName).price; 
         let drinkAmount = drinkInfo.get(drinkName).amount;
-        // 아이템 수량이 부족할 경우 alert, 품절은 획득 버튼을 눌렀을 시 처리
+        // 아이템 수량이 부족할 경우 모달창 오픈, 품절은 획득 버튼을 눌렀을 시 처리
         if(drinkAmount === 0) {
-            alert("아이템 수량이 부족합니다.");
+            onModal("No More Item");
             return;
         }
-        // 돈이 부족할 시 alert
+        // 돈이 부족할 시 모달창 오픈
         if(drinkPrice > insertedMoney) {
-            alert("돈이 부족합니다");
+            onModal("Money Needed");
             return;
         }
-        // console.log(drinkPrice, possessedMoney);
         // 잔액, 음료수 amount 업데이트
         insertedMoney -= drinkPrice;
         inserted.textContent = numberToMoney(insertedMoney);
         item.classList.add("active");
-        drinkInfo.get(drinkName).amount--;
+        item.querySelector(".drink-amount").textContent = --drinkInfo.get(drinkName).amount;
 
-        
-        // current cart 업데이트
-        if(currentCart.has(drinkName)) {
-            currentCart.set(drinkName, currentCart.get(drinkName)+1);
-            const itemCart = listCurrent.querySelector(`[data-type=${drinkName}]`);
-            itemCart.querySelector(".drink-count").textContent = currentCart.get(drinkName);
-        } else {
-            currentCart.set(drinkName, 1);
-            const itemCart = document.createElement("li");
-            const itemImg = document.createElement("img");
-            const itemName = document.createElement("span");
-            const itemCount = document.createElement("span");
-            itemCart.setAttribute("class", "cart-item");
-            itemCart.setAttribute("data-type", drinkName);
-            itemImg.setAttribute("src", `./img/${drinkColor}.svg`);
-            itemImg.setAttribute("alt", drinkName);
-            itemName.setAttribute("class", 'drink-name');
-            itemName.append(document.createTextNode(drinkName));
-            itemCount.setAttribute("class", 'drink-count');
-            itemCount.append(document.createTextNode('1'));
-            itemCart.append(itemImg, itemName, itemCount);
-            listCurrent.appendChild(itemCart);
-        }
+        // update current cart
+        updateCart(listCurrent, currentCart, drinkName, 1, true);
 
-    
-
-        // else {
-        //     insertedMoney += drinkPrice;
-        //     inserted.textContent = numberToMoney(insertedMoney);
-        //     drinks[i].classList.toggle("active");
-        //     drinkInfo[drinkName].amount++;
-        // }
     })
 });
 
+// cart 업데이트
+const updateCart = function(listCart, cartMap, drinkName, value, isCurrent) {
+    let drinkColor = drinkInfo.get(drinkName).color;
+    // cart 업데이트
+    if(cartMap.has(drinkName)) {
+        cartMap.set(drinkName, cartMap.get(drinkName)+value);
+        const itemCart = listCart.querySelector(`[data-type=${drinkName}]`);
+        itemCart.querySelector(".drink-count").textContent = cartMap.get(drinkName);
+    } else {
+        cartMap.set(drinkName, value);
+        // new list item
+        const itemCart = document.createElement("li");
+        itemCart.setAttribute("class", "cart-item");
+        itemCart.setAttribute("data-type", drinkName);
+        // item img
+        const itemImg = document.createElement("img");
+        itemImg.setAttribute("src", `./img/${drinkColor}.svg`);
+        itemImg.setAttribute("alt", drinkName);
+        // item name
+        const itemName = document.createElement("span");
+        itemName.setAttribute("class", 'drink-name');
+        itemName.append(document.createTextNode(drinkName));
+        // item count
+        const itemCount = document.createElement("span");
+        itemCount.setAttribute("class", 'drink-count');
+        itemCount.append(document.createTextNode(value));
+        itemCart.append(itemImg, itemName, itemCount);
+        if(isCurrent) {
+            // sub button
+            const btnSub = document.createElement("button");
+            btnSub.setAttribute("class", "btn-sub");
+            btnSub.setAttribute("type", "button");
+            btnSub.append(document.createTextNode("-"));
+            // add button
+            const btnAdd = document.createElement("button");
+            btnAdd.setAttribute("class", "btn-add");
+            btnAdd.setAttribute("type", "button");
+            btnAdd.append(document.createTextNode("+"));
+            // remove button
+            const btnRemove = document.createElement("button");
+            btnRemove.setAttribute("class", "btn-remove");
+            btnRemove.setAttribute("type", "button");
+            btnRemove.append(document.createTextNode("x"));
+
+            itemCart.append(btnSub, btnAdd, btnRemove);
+        }
+        listCart.appendChild(itemCart);
+
+        if(!isCurrent) return;
+        // 수량 조절 버튼 이벤트 리스너 추가
+        // NEED TO WORK: 잔액/acitve 조절
+        const btnSub = itemCart.querySelector(".btn-sub");
+        const btnAdd = itemCart.querySelector(".btn-add");
+        const btnRemove = itemCart.querySelector(".btn-remove");
+        const btnDrink = listDrink.querySelector(`[data-type=${drinkName}`);
+        btnSub.addEventListener("click", () => {
+            btnDrink.querySelector(".drink-amount").textContent = ++drinkInfo.get(drinkName).amount;
+            currentCart.set(drinkName, currentCart.get(drinkName) - 1);
+            itemCount.textContent = currentCart.get(drinkName);
+            insertedMoney += drinkInfo.get(drinkName).price;
+            inserted.textContent = numberToMoney(insertedMoney);
+            if(itemCount.textContent == 0) {
+                console.log("hello", onModal("Remove Item from Cart", true));
+                listCurrent.removeChild(itemCart);
+                currentCart.delete(drinkName);
+                btnDrink.classList.remove("active");
+                return;
+            } 
+        });
+        btnAdd.addEventListener("click", () => {
+            if(drinkInfo.get(drinkName).price > insertedMoney) {
+                onModal("Money Needed");
+                return;
+            }
+            if(drinkInfo.get(drinkName).amount == 0) {
+                onModal("Unable to Get");
+                return;
+            }
+            btnDrink.querySelector(".drink-amount").textContent = --drinkInfo.get(drinkName).amount;
+            itemCount.innerText++;
+            insertedMoney -= drinkInfo.get(drinkName).price;
+            inserted.textContent = numberToMoney(insertedMoney);
+        })
+        // 한번에 해당 음료수 전체 삭제
+        btnRemove.addEventListener("click", () => {
+            onModal("Remove Item from Cart", true)
+            drinkInfo.get(drinkName).amount += currentCart.get(drinkName);
+            btnDrink.querySelector(".drink-amount").textContent = parseInt(btnDrink.querySelector(".drink-amount").textContent) + currentCart.get(drinkName);
+            insertedMoney = insertedMoney + drinkInfo.get(drinkName).price * currentCart.get(drinkName);
+            
+            listCurrent.removeChild(itemCart);
+            currentCart.delete(drinkName);
+            inserted.textContent = numberToMoney(insertedMoney);
+            btnDrink.classList.remove("active");
+        })
+    }
+}
 
 /* ------------------------------------------------ 계산대 작업 */
+/* 사용자의 입금 금액을 100원 단위로 반올림해준다. */
+inputPayment.addEventListener("change", () => {
+    inputPayment.value = Math.round(inputPayment.value/100) * 100;
+});
+
 /* 거스름돈 반환 버튼: 눌렀을 시 소지금에 돈을 돌려준다. */
-function onReturnClicked() {
+btnReturn.addEventListener("click", () => {
     if(insertedMoney > 0) {
         possessedMoney += insertedMoney;
         possessed.textContent = numberToMoney(possessedMoney);
         insertedMoney = 0;
         inserted.textContent = numberToMoney(insertedMoney);
     }
-}
+});
 
 /* 임급 버튼: 눌었을 시 잔액의 돈을 올려준다 */
-function onPaymentClicked() {
+btnPayment.addEventListener("click", () => {
     if(inputPayment.value == 0) {
         inputPayment.value = "";
-        alert("돈을 입금해주세요");
+        onModal("Input Money");
+        return;
+    }
+    if(inputPayment.value > possessedMoney) {
+        inputPayment.value = "";
+        onModal("No More Money");
         return;
     }
     insertedMoney += parseInt(inputPayment.value);
@@ -129,10 +233,10 @@ function onPaymentClicked() {
     possessedMoney -= parseInt(inputPayment.value);
     possessed.textContent = numberToMoney(possessedMoney);
     inputPayment.value = "";
-}
+});
 
-function onGainClicked() {
-    // let drinkPrice = drinkInfo[drinkName].price;   
+/* 획득 버튼: 눌렀을 시 음료수 품절처리, 획득한 음료, 현재 카트 업데이트 */
+btnGain.addEventListener("click", () => {
     // 음료수 버튼 처리
     drinks.forEach(item => {
         let drinkName = item.querySelector(".drink-name").innerText;
@@ -144,8 +248,20 @@ function onGainClicked() {
         // active 지우기
         item.classList.remove("active");
     })
-}
+    // update final cart
+    currentCart.forEach((value, key) => {
+        updateCart(listFinal, finalCart, key, value, false);
+    });
 
-btnReturn.addEventListener("click", onReturnClicked);
-btnPayment.addEventListener("click", onPaymentClicked);
-btnGain.addEventListener("click", onGainClicked);
+    // currentCart & listCurrent 비우기
+    currentCart.clear();
+    const itemCart = listCurrent.querySelectorAll('li');
+    itemCart.forEach(v => listCurrent.removeChild(v));
+
+    // update total price
+    let price = 0;
+    finalCart.forEach((value, key) => {
+        price += drinkInfo.get(key).price * value;
+    })
+    totalPrice.textContent = numberToMoney(price);
+});

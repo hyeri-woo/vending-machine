@@ -98,6 +98,13 @@ main section {
 .list-drink img {
   margin-bottom: 6px;
 }
+.list-drink .drink-amount {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 8px;
+  color: grey;
+}
 .list-drink .drink-name {
   font-size: 9px;
   color: #333333;
@@ -171,24 +178,6 @@ main section {
 .counter-wrapper .input-payment::placeholder {
   color: #BDBDBD;
 }
-.counter-wrapper .list-currentCart {
-  height: 106px;
-  background: #EAE8FE;
-  border: 1px solid var(--border-color);
-  padding: 12px;
-  padding-right: 8px;
-  overflow-y: scroll;
-}
-.counter-wrapper .list-currentCart::-webkit-scrollbar {
-  height: 0px;
-  width: 10px;
-}
-.counter-wrapper .list-currentCart::-webkit-scrollbar-thumb {
-  background-color: white;
-  border-radius: 10px;
-  background-clip: padding-box;
-  border: 3px solid transparent;
-}
 .cart-item {
   width: 100%;
   display: flex;
@@ -224,6 +213,92 @@ main section {
 .counter-wrapper .btn-gain {
   background: #6327FE;
   color: white;
+}
+
+.list-currentCart {
+  height: 106px;
+  background: #EAE8FE;
+  border: 1px solid var(--border-color);
+  padding: 12px;
+  padding-right: 8px;
+  overflow-y: scroll;
+}
+.list-currentCart .cart-item {
+  position: relative;
+}
+.list-currentCart .cart-item::after {
+  content: "";
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: black;
+  opacity: 0.5;
+  border-radius: 5px;
+}
+.list-currentCart .drink-count {
+  background: white;
+}
+.list-currentCart .btn-sub, .list-currentCart .btn-add, .list-currentCart .btn-remove {
+  display: none;
+  position: absolute;
+  background: white;
+  width: 20px;
+  height: 20px;
+  font-size: 1.4rem;
+  text-align: center;
+  border-radius: 5px;
+  border: 1px solid #BDBDBD;
+  box-sizing: border-box;
+  z-index: 10;
+  line-height: 8px;
+}
+.list-currentCart .btn-sub {
+  left: 40px;
+}
+.list-currentCart .btn-sub:hover {
+  background: #BDBDBD;
+}
+.list-currentCart .btn-add {
+  right: 40px;
+}
+.list-currentCart .btn-add:hover {
+  background: #BDBDBD;
+}
+.list-currentCart .btn-remove {
+  right: -5px;
+  top: -5px;
+  padding-bottom: 3px;
+  background: #6327FE;
+  color: white;
+  border-color: white;
+}
+.list-currentCart .btn-remove:hover {
+  background: #32157b;
+}
+.list-currentCart .cart-item:hover .drink-count {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+.list-currentCart .cart-item:hover::after {
+  display: inline-block;
+}
+.list-currentCart .cart-item:hover .btn-sub, .list-currentCart .cart-item:hover .btn-add, .list-currentCart .cart-item:hover .btn-remove {
+  display: inline-block;
+}
+.list-currentCart::-webkit-scrollbar {
+  height: 0px;
+  width: 10px;
+}
+.list-currentCart::-webkit-scrollbar-thumb {
+  background-color: white;
+  border-radius: 10px;
+  background-clip: padding-box;
+  border: 3px solid transparent;
 }
 
 /* ------------------------------- section: reciept */
@@ -264,8 +339,7 @@ main section {
   border: 1px solid #BDBDBD;
   border-radius: 5px;
   padding: 12px;
-  padding-right: 8px;
-  overflow-y: scroll;
+  overflow-y: auto;
   min-height: 380px;
 }
 .gain-wrapper .list-finalCart::-webkit-scrollbar {
@@ -304,4 +378,52 @@ main section {
   main .gain-wrapper {
     padding-bottom: 69px;
   }
+}
+/* ------------------------------- article:modal */
+.modal-wrapper {
+  display: none;
+  position: fixed;
+  background: rgba(0, 0, 0, 0.5);
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+}
+
+.modal-wrapper.on {
+  display: block;
+}
+
+.article-modal {
+  top: 35%;
+  left: calc(50% - 150px);
+  width: 300px;
+  border: 2px solid #BDBDBD;
+  border-radius: 20px;
+  overflow: hidden;
+  padding-bottom: 10px;
+  text-align: center;
+  position: fixed;
+  background: white;
+}
+.article-modal h2 {
+  padding: 10px;
+  border-bottom: 2px solid #BDBDBD;
+  background: #EAE8FE;
+  color: grey;
+  font-size: 15px;
+}
+.article-modal p {
+  padding: 10px;
+  color: grey;
+}
+.article-modal button {
+  margin-top: 20px;
+  background: #6327FE;
+  color: white;
+  padding: 8px 10px;
+  width: 70px;
+  border-radius: 5px;
+}
+.article-modal .btn-cancel {
+  margin-right: 10px;
 }/*# sourceMappingURL=style.css.map */

@@ -20,37 +20,43 @@
             <ul class="list-drink">
                 <!-- js active으로 조절 -->
                 <!-- js soldout으로 조절 -->
-                <li><button class="btn-item red" type="button">
+                <li><button class="btn-item" type="button" data-type="Original_Cola">
+                    <span class="drink-amount"></span>
                     <img src="./img/red.svg" alt="오리지널 콜라">
                     <span class="drink-name">Original_Cola</span>
                     <span class="drink-price">1000원</span>
                     <strong class="soldout-text"><span>품절</span></strong>
                 </button></li>
-                <li><button class="btn-item violet" type="button">
+                <li><button class="btn-item" type="button" data-type="Violet_Cola">
+                    <span class="drink-amount"></span>
                     <img src="./img/violet.svg" alt="바이올렛 콜라">
                     <span class="drink-name">Violet_Cola</span>
                     <span class="drink-price">1000원</span>
                     <strong class="soldout-text"><span>품절</span></strong>
                 </button></li>
-                <li><button class="btn-item yellow" type="button">
+                <li><button class="btn-item" type="button" data-type="Yellow_Cola">
+                    <span class="drink-amount"></span>
                     <img src="./img/yellow.svg" alt="노랑 콜라">
                     <span class="drink-name">Yellow_Cola</span>
                     <span class="drink-price">1000원</span>
                     <strong class="soldout-text"><span>품절</span></strong>
                 </button></li>
-                <li><button class="btn-item cool" type="button">
+                <li><button class="btn-item" type="button" data-type="Cool_Cola">
+                    <span class="drink-amount"></span>
                     <img src="./img/blue.svg" alt="시원한 콜라">
                     <span class="drink-name">Cool_Cola</span>
                     <span class="drink-price">1000원</span>
                     <strong class="soldout-text"><span>품절</span></strong>
                 </button></li>
-                <li><button class="btn-item green" type="button">
+                <li><button class="btn-item" type="button" data-type="Green_Cola">
+                    <span class="drink-amount"></span>
                     <img src="./img/green.svg" alt="초록 콜라">
                     <span class="drink-name">Green_Cola</span>
                     <span class="drink-price">1000원</span>
                     <strong class="soldout-text"><span>품절</span></strong>
                 </button></li>
-                <li><button class="btn-item orange" type="button">
+                <li><button class="btn-item" type="button" data-type="Orange_Cola">
+                    <span class="drink-amount"></span>
                     <img src="./img/orange.svg" alt="오렌지 콜라">
                     <span class="drink-name">Orange_Cola</span>
                     <span class="drink-price">1000원</span>
@@ -76,6 +82,9 @@
                             <img src="./img/red.svg" alt="오리지널 콜라">
                             <span class="drink-name">Original_Cola</span>
                             <span class="drink-count">1</span>
+                            <button class="btn-sub" type="button">-</button>
+                            <button class="btn-add" type="button">+</button>
+                            <button class="btn-remove" type="button">x</button>
                     </li>
                     <li class="cart-item" data-type="Green_Cola">
                             <img src="./img/green.svg" alt="초록 콜라">
@@ -98,7 +107,7 @@
             <div class="gain-wrapper">
                 <h3>획득한 음료</h3>
                 <ul class="list-finalCart">
-                    <li class="cart-item">
+                    <!-- <li class="cart-item">
                         <img src="./img/red.svg" alt="오리지널 콜라">
                         <span class="drink-name">Original_Cola</span>
                         <span class="drink-count">1</span>
@@ -107,22 +116,21 @@
                         <img src="./img/green.svg" alt="초록 콜라">
                         <span class="drink-name">Green_Cola</span>
                         <span class="drink-count">2</span>
-                    </li>
-                    <li class="cart-item">
-                        <img src="./img/orange.svg" alt="오렌지 콜라">
-                        <span class="drink-name">Orange_Cola</span>
-                        <span class="drink-count">1</span>
-                    </li>
-                    <li class="cart-item">
-                        <img src="./img/violet.svg" alt="보라 콜라">
-                        <span class="drink-name">Violet_Cola</span>
-                        <span class="drink-count">5</span>
-                    </li>
+                    </li> -->
                 </ul>
-                <p class="total-price">총금액: <span>9,000원</span></p>
+                <p class="total-price">총금액: <span>0원</span></p>
             </div>
         </section>
     </main>
+    <!-- article: modal -->
+    <div class="modal-wrapper">
+        <article class="article-modal">
+            <h2>모달창</h2>
+            <p>설명</p>
+            <button class="btn-cancel" type="button">Cancel</button>
+            <button class="btn-yes" type="button">Yes</button>
+        </article>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>

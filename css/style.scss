@@ -98,8 +98,6 @@ main {
     }
     button:not(.soldout):hover {
         box-shadow: $main-color 0px 0px 0px 3px;
-        // background-color: rgba(0, 0, 0, 0.5);
-        // transition: all 0.3s;
     }
     button:not(.soldout):active {
         background-color: rgba(0, 0, 0, 0.5);
@@ -107,6 +105,13 @@ main {
     }
     img {
         margin-bottom: 6px;
+    }
+    .drink-amount {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        font-size: 8px;
+        color: grey;
     }
     .drink-name {
         font-size: 9px;
@@ -178,24 +183,6 @@ main {
             color: $border-color;
         }
     }
-    .list-currentCart {
-        height: 106px;
-        background: $bg-color;
-        border: 1px solid var(--border-color);
-        padding: 12px;
-        padding-right: 8px;
-        overflow-y: scroll;
-        &::-webkit-scrollbar {
-            height: 0px;
-            width: 10px;
-        }
-        &::-webkit-scrollbar-thumb {
-            background-color: white;
-            border-radius: 10px;
-            background-clip: padding-box;
-            border: 3px solid transparent;
-        }
-    }
     @at-root .cart-item {
         width: 100%;
         display: flex;
@@ -230,6 +217,94 @@ main {
     .btn-gain {
         background: $main-color;
         color: white;
+    }
+}
+
+.list-currentCart {
+    height: 106px;
+    background: $bg-color;
+    border: 1px solid var(--border-color);
+    padding: 12px;
+    padding-right: 8px;
+    overflow-y: scroll;
+    .cart-item {
+        position: relative;
+    }
+    .cart-item::after {
+        content: "";
+        display: none;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background: black;
+        opacity: 0.5;
+        border-radius: 5px;
+    }
+    .drink-count {
+        background: white;
+    }
+    .btn-sub, .btn-add, .btn-remove {
+        display: none;
+        position: absolute;
+        background: white;
+        width: 20px;
+        height: 20px;
+        font-size: 1.4rem;
+        text-align: center;
+        border-radius: 5px;
+        border: 1px solid $border-color;
+        box-sizing: border-box;
+        z-index: 10;
+        line-height: 8px;
+    }
+    .btn-sub {
+        left: 40px;
+        &:hover {
+            background: $border-color;
+        }
+    }
+    .btn-add {
+        right: 40px;
+        &:hover {
+            background: $border-color;
+        }
+    }
+    .btn-remove {
+        right: -5px;
+        top: -5px;
+        padding-bottom: 3px;
+        background: $main-color;
+        color: white;
+        border-color: white;
+        &:hover {
+            background: $main-dark-color;
+        }
+    }
+    .cart-item:hover {
+        .drink-count {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+        &::after {
+            display: inline-block;
+        }
+        .btn-sub, .btn-add, .btn-remove {
+            display: inline-block;
+        }
+    }
+    &::-webkit-scrollbar {
+        height: 0px;
+        width: 10px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: white;
+        border-radius: 10px;
+        background-clip: padding-box;
+        border: 3px solid transparent;
     }
 }
 
@@ -271,8 +346,7 @@ main {
         border: 1px solid $border-color;
         border-radius: 5px;
         padding: 12px;
-        padding-right: 8px;
-        overflow-y: scroll;
+        overflow-y: auto;
         min-height: 380px;
         &::-webkit-scrollbar {
             height: 0px;
@@ -311,5 +385,67 @@ main {
         .gain-wrapper {
             padding-bottom: 69px;
         }
+    }
+}
+
+/* ------------------------------- article:modal */
+.modal-wrapper {
+    display: none;
+    position: fixed;
+    background: rgba(0, 0, 0, 0.5);
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+}
+
+.modal-wrapper.on {
+    display: block;
+}
+
+.article-modal {
+    top: 35%;
+    left: calc(50% - 300px/2);
+    width: 300px;
+    border: 2px solid $border-color;
+    border-radius: 20px;
+    overflow: hidden;
+    padding-bottom: 10px;
+    text-align: center;
+    position: fixed;
+    background: white;
+    // &::before {
+    //     display: block;
+    //     content: "";
+    //     position: fixed;
+    //     top: 0;
+    //     left: 0;
+    //     right: 0;
+    //     bottom: 0;
+    //     background-color: #000;
+    //     opacity: .7;
+    //     z-index: -1;
+    // }
+    h2 {
+        padding: 10px;
+        border-bottom: 2px solid $border-color;
+        background: $bg-color;
+        color: grey;
+        font-size: 15px;
+    }
+
+    p {
+        padding: 10px;
+        color: grey;
+    }
+    button {
+        margin-top: 20px;
+        background: $main-color;
+        color: white;
+        padding: 8px 10px;
+        width: 70px;
+        border-radius: 5px;
+    }
+    .btn-cancel {
+        margin-right: 10px;
     }
 }
