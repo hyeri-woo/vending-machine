@@ -157,6 +157,8 @@ const updateCart = function(listCart, cartMap, drinkName, value, isCurrent) {
         const btnAdd = itemCart.querySelector(".btn-add");
         const btnRemove = itemCart.querySelector(".btn-remove");
         const btnDrink = listDrink.querySelector(`[data-type=${drinkName}`);
+
+        // 카트에 든 음료수 개수 하나 차감, 0이 될시 삭제 
         btnSub.addEventListener("click", () => {
             btnDrink.querySelector(".drink-amount").textContent = ++drinkInfo.get(drinkName).amount;
             currentCart.set(drinkName, currentCart.get(drinkName) - 1);
@@ -170,7 +172,9 @@ const updateCart = function(listCart, cartMap, drinkName, value, isCurrent) {
                 btnDrink.classList.remove("active");
                 return;
             } 
+            
         });
+        // 카트에 든 음료수 개수 하나 추가
         btnAdd.addEventListener("click", () => {
             if(drinkInfo.get(drinkName).price > insertedMoney) {
                 onModal("Money Needed");
