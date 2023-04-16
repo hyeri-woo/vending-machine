@@ -25,6 +25,7 @@ msgWarning.set("Remove Item from Cart", "음료수를 현재 장바구니에서 
 msgWarning.set("Unable to Get", "해당 음료수가 소진되었습니다. 구매는 더 이상 불가합니다.");
 msgWarning.set("Input Money", "돈을 입금해주세요");
 msgWarning.set("No More Money", "소지금이 부족합니다.");
+msgWarning.set("Successful Gain", "성공적으로 아이템을 구매하였습니다.")
 
 const currentCart = new Map();
 const finalCart = new Map();
@@ -58,19 +59,48 @@ window.addEventListener("load", () => {
 
 /* 모달창 처리 */ 
 // NEED TO WORK: YES 눌렀을 시에만 아이템 삭제
-const onModal = function(title, isRemove=false) {
+// isRemove == true: 현재 장바구니에서 아이템 삭제할 때
+// isSub == true: btn-sub을 통해서만 아이템 삭제할 때
+const onModal = function(title, itemCart, itemCount, drinkName, btnDrink, isRemove=false, isSub=false) {
     modal.classList.add("on");
     modal.querySelector("h2").textContent = title;
     modal.querySelector("p").textContent = msgWarning.get(title);
-    modal.querySelector(".btn-cancel").addEventListener("click", () => {
-        modal.classList.remove("on");
-    });
-    modal.querySelector(".btn-yes").addEventListener("click", () => {
-        modal.classList.remove("on");
-        if(isRemove) {
-            isYes = true;
+    const btnCancel = modal.querySelector(".btn-cancel");
+    const btnYes = modal.querySelector(".btn-yes");
+    const onCancelClicked = () => {
+        console.log("cancel");
+        if(isSub) {
+            currentCart.set(drinkName, 1);
+            itemCount.textContent = currentCart.get(drinkName);
         }
-    });
+        modal.classList.remove("on");
+    }
+    const onYesClicked = () => {
+        console.log("yes");
+        if(isSub) {
+            currentCart.set(drinkName, currentCart.get(drinkName) + 1);
+        }
+        if(isRemove) {
+            drinkInfo.get(drinkName).amount += currentCart.get(drinkName);
+            btnDrink.querySelector(".drink-amount").textContent = parseInt(btnDrink.querySelector(".drink-amount").textContent) + currentCart.get(drinkName);
+            insertedMoney = insertedMoney + drinkInfo.get(drinkName).price * currentCart.get(drinkName);
+            inserted.textContent = numberToMoney(insertedMoney);
+        }
+        if(isRemove) {
+            listCurrent.removeChild(itemCart);
+            currentCart.delete(drinkName);
+            btnDrink.classList.remove("active");
+        }
+        modal.classList.remove("on");
+    }
+    btnCancel.addEventListener("click", onCancelClicked, {once: true});
+    btnCancel.addEventListener("click", () => {
+        btnYes.removeEventListener("click", onYesClicked, false);
+    }, {once: true});
+    btnYes.addEventListener("click", onYesClicked, {once: true});
+    btnYes.addEventListener("click", () => {
+        btnCancel.removeEventListener("click", onCancelClicked, false);
+    }, {once: true});
 }
 
 /* ------------------------------------------------ 음료수 버튼 클릭 */
@@ -152,7 +182,6 @@ const updateCart = function(listCart, cartMap, drinkName, value, isCurrent) {
 
         if(!isCurrent) return;
         // 수량 조절 버튼 이벤트 리스너 추가
-        // NEED TO WORK: 잔액/acitve 조절
         const btnSub = itemCart.querySelector(".btn-sub");
         const btnAdd = itemCart.querySelector(".btn-add");
         const btnRemove = itemCart.querySelector(".btn-remove");
@@ -160,19 +189,22 @@ const updateCart = function(listCart, cartMap, drinkName, value, isCurrent) {
 
         // 카트에 든 음료수 개수 하나 차감, 0이 될시 삭제 
         btnSub.addEventListener("click", () => {
-            btnDrink.querySelector(".drink-amount").textContent = ++drinkInfo.get(drinkName).amount;
+            console.log(currentCart);
             currentCart.set(drinkName, currentCart.get(drinkName) - 1);
-            itemCount.textContent = currentCart.get(drinkName);
-            insertedMoney += drinkInfo.get(drinkName).price;
-            inserted.textContent = numberToMoney(insertedMoney);
+            // currentCart의 value는 0을 미니멈으로 보여준다.
+            if(currentCart.get(drinkName) < 0) {
+                itemCount.textContent = "0";
+            } else {
+                itemCount.textContent = currentCart.get(drinkName);
+            }
             if(itemCount.textContent == 0) {
-                console.log("hello", onModal("Remove Item from Cart", true));
-                listCurrent.removeChild(itemCart);
-                currentCart.delete(drinkName);
-                btnDrink.classList.remove("active");
+                console.log(currentCart);
+                onModal("Remove Item from Cart", itemCart, itemCount, drinkName, btnDrink, true, true);
                 return;
             } 
-            
+            insertedMoney += drinkInfo.get(drinkName).price;
+            inserted.textContent = numberToMoney(insertedMoney);
+            btnDrink.querySelector(".drink-amount").textContent = ++drinkInfo.get(drinkName).amount;
         });
         // 카트에 든 음료수 개수 하나 추가
         btnAdd.addEventListener("click", () => {
@@ -185,21 +217,14 @@ const updateCart = function(listCart, cartMap, drinkName, value, isCurrent) {
                 return;
             }
             btnDrink.querySelector(".drink-amount").textContent = --drinkInfo.get(drinkName).amount;
+            currentCart.set(drinkName, currentCart.get(drinkName) + 1);
             itemCount.innerText++;
             insertedMoney -= drinkInfo.get(drinkName).price;
             inserted.textContent = numberToMoney(insertedMoney);
         })
         // 한번에 해당 음료수 전체 삭제
         btnRemove.addEventListener("click", () => {
-            onModal("Remove Item from Cart", true)
-            drinkInfo.get(drinkName).amount += currentCart.get(drinkName);
-            btnDrink.querySelector(".drink-amount").textContent = parseInt(btnDrink.querySelector(".drink-amount").textContent) + currentCart.get(drinkName);
-            insertedMoney = insertedMoney + drinkInfo.get(drinkName).price * currentCart.get(drinkName);
-            
-            listCurrent.removeChild(itemCart);
-            currentCart.delete(drinkName);
-            inserted.textContent = numberToMoney(insertedMoney);
-            btnDrink.classList.remove("active");
+            onModal("Remove Item from Cart", itemCart, itemCount, drinkName, btnDrink, true);
         })
     }
 }

@@ -8,10 +8,10 @@ $border-color: #BDBDBD;
 @import "media";
 
 /* common */
-@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+@import url('https://cdn.jsdelivr.net/npm/galmuri@latest/dist/galmuri.css');
 
 * {
-    font-family: 'Noto Sans KR', sans-serif;
+    font-family: 'Galmuri9';
     font-weight: 500;
     font-size: 10px;
     box-sizing: border-box;
