@@ -25,7 +25,8 @@ msgWarning.set("Remove Item from Cart", "음료수를 현재 장바구니에서 
 msgWarning.set("Unable to Get", "해당 음료수가 소진되었습니다. 구매는 더 이상 불가합니다.");
 msgWarning.set("Input Money", "돈을 입금해주세요");
 msgWarning.set("No More Money", "소지금이 부족합니다.");
-msgWarning.set("Successful Gain", "성공적으로 아이템을 구매하였습니다.")
+msgWarning.set("Successful Gain", "성공적으로 아이템을 구매하였습니다.");
+msgWarning.set("Nothing to Get", "구매할 음료수가 없습니다.");
 
 const currentCart = new Map();
 const finalCart = new Map();
@@ -74,6 +75,8 @@ const onModal = function(title, itemCart, itemCount, drinkName, btnDrink, isRemo
             itemCount.textContent = currentCart.get(drinkName);
         }
         modal.classList.remove("on");
+        // 소리 추가
+        new Audio("./audio/modal-click.mp3").play();
     }
     const onYesClicked = () => {
         console.log("yes");
@@ -92,17 +95,22 @@ const onModal = function(title, itemCart, itemCount, drinkName, btnDrink, isRemo
             btnDrink.classList.remove("active");
         }
         modal.classList.remove("on");
+        // 소리 추가
+        new Audio("./audio/modal-click.mp3").play();
     }
     btnCancel.addEventListener("click", onCancelClicked, {once: true});
-    btnCancel.addEventListener("click", () => {
+    btnCancel.addEventListener("click", (e) => {
+        console.log(e);
         btnYes.removeEventListener("click", onYesClicked, false);
     }, {once: true});
     btnYes.addEventListener("click", onYesClicked, {once: true});
     btnYes.addEventListener("click", () => {
         btnCancel.removeEventListener("click", onCancelClicked, false);
     }, {once: true});
-}
 
+    // 소리 추가
+    new Audio("./audio/notify.mp3").play();
+}
 /* ------------------------------------------------ 음료수 버튼 클릭 */
 const drinks = listDrink.querySelectorAll("button");
 drinks.forEach(item =>  {
@@ -129,6 +137,8 @@ drinks.forEach(item =>  {
         // update current cart
         updateCart(listCurrent, currentCart, drinkName, 1, true);
 
+        // 소리 추가
+        new Audio("./audio/button-click.mp3").play();
     })
 });
 
@@ -189,7 +199,6 @@ const updateCart = function(listCart, cartMap, drinkName, value, isCurrent) {
 
         // 카트에 든 음료수 개수 하나 차감, 0이 될시 삭제 
         btnSub.addEventListener("click", () => {
-            console.log(currentCart);
             currentCart.set(drinkName, currentCart.get(drinkName) - 1);
             // currentCart의 value는 0을 미니멈으로 보여준다.
             if(currentCart.get(drinkName) < 0) {
@@ -198,7 +207,6 @@ const updateCart = function(listCart, cartMap, drinkName, value, isCurrent) {
                 itemCount.textContent = currentCart.get(drinkName);
             }
             if(itemCount.textContent == 0) {
-                console.log(currentCart);
                 onModal("Remove Item from Cart", itemCart, itemCount, drinkName, btnDrink, true, true);
                 return;
             } 
@@ -242,6 +250,8 @@ btnReturn.addEventListener("click", () => {
         possessed.textContent = numberToMoney(possessedMoney);
         insertedMoney = 0;
         inserted.textContent = numberToMoney(insertedMoney);
+        // 소리 추가
+        new Audio("./audio/coin-return.mp3").play();
     }
 });
 
@@ -262,10 +272,16 @@ btnPayment.addEventListener("click", () => {
     possessedMoney -= parseInt(inputPayment.value);
     possessed.textContent = numberToMoney(possessedMoney);
     inputPayment.value = "";
+    // 소리 추가
+    new Audio("./audio/coin-collect.mp3").play();
 });
 
 /* 획득 버튼: 눌렀을 시 음료수 품절처리, 획득한 음료, 현재 카트 업데이트 */
 btnGain.addEventListener("click", () => {
+    if(currentCart.size === 0) {
+        onModal("Nothing to Get");
+        return;
+    }
     // 음료수 버튼 처리
     drinks.forEach(item => {
         let drinkName = item.querySelector(".drink-name").innerText;
@@ -273,7 +289,6 @@ btnGain.addEventListener("click", () => {
         if(drinkInfo.get(drinkName).amount == 0) {
             item.classList.add("soldout");
         } 
-
         // active 지우기
         item.classList.remove("active");
     })
@@ -293,4 +308,7 @@ btnGain.addEventListener("click", () => {
         price += drinkInfo.get(key).price * value;
     })
     totalPrice.textContent = numberToMoney(price);
+
+    // 소리 추가
+    new Audio("./audio/gain.mp3").play();
 });
