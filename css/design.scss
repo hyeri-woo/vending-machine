@@ -1,7 +1,9 @@
-
- 
-
 /* variables */
+$navy-color: #361588;
+$pink-color: #E745FA;
+$mint-color: #45F9FF;
+$light-mint: #E6F1F4;
+$yellow-color: #FFF7BA;
 $bg-color: #EAE8FE;
 $main-color: #6327FE;
 $main-dark-color: #32157b;
@@ -74,6 +76,7 @@ main {
     justify-content: space-between;
     margin: auto;
     section {
+        background: #84ADFC;
         flex-basis: 360px;
         flex-shrink: 0;
     }
@@ -81,7 +84,6 @@ main {
 
 /* ------------------------------- section: vending */
 .section-vending {
-    background: white;
     padding: 31px 27px 28px;
 }
 
@@ -91,23 +93,29 @@ main {
     gap: 12px;
     button {
         position: relative;
-        border-radius: 10px;
-        box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
+        background: $light-mint;
+        box-shadow: 4px 4px 0px #4D79CC;
         padding: 11px 12px 9px;
         overflow: hidden;
     }
     button.active {
-        box-shadow: $main-color 0px 0px 0px 3px;
+        background: $yellow-color;
+        outline: 3px solid $pink-color;
+        //transform: translate(-3px, -3px);
+        .display-circle {
+            background: $pink-color;
+        }
     }
     button:not(.soldout):hover {
-        box-shadow: $main-color 0px 0px 0px 3px;
+        outline: 3px solid $pink-color;
     }
     button:not(.soldout):active {
         background-color: rgba(0, 0, 0, 0.5);
         transition: all 0.2s;
     }
     img {
-        margin-bottom: 6px;
+        width: 40px;
+        margin: 10px;
     }
     .drink-amount {
         position: absolute;
@@ -117,17 +125,26 @@ main {
         color: grey;
     }
     .drink-name {
-        font-size: 9px;
-        color: $text-color;
+        font-size: 10px;
+        font-weight: bold;
+        color: $navy-color;
     }
     .drink-price {
         display: inline-block;
         font-size: 12px;
         color: white;
-        background: $main-color;
-        border-radius: 50px;
-        padding: 3px 15px;
+        background: $navy-color;
+        // border-radius: 50px;
+        padding: 3px 7px;
         margin-top: 7px;
+        .display-circle {
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            margin: 0 5px 2px 0;
+            background: $mint-color;
+            // border-radius: 50%;
+        }
     }
     .soldout-text {
         display: inline-block;
@@ -145,12 +162,15 @@ main {
         right: 20%;
         width: 55px;
         font-size: 14px;
-        color: $bg-color;
-        border: 6px double $bg-color;
+        color: $light-mint;
+        border: 6px double $light-mint;
         transform: rotate(-18deg);
     }
     button.soldout {
         cursor: initial;;
+        .display-circle {
+            background-color: #969696;
+        }
     }
     button:not(.soldout) .soldout-text {
         display: none;
@@ -164,26 +184,29 @@ main {
     padding-top: 20px;
     * {
         font-size: 13px;
-        border-radius: 5px;
     }
     .inserted {
-        background: $bg-color;
+        border: 3px solid $navy-color;
+        background: #7883FE;
+        color: $navy-color;
         padding: 5px 10px;
         font-size: 14px;
     }
     & > button {
-        border: 1px solid $border-color;
-        box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
+        background: $navy-color;
+        color: $light-mint;
     }
     & > button:hover {
         box-shadow: $main-color 0px 0px 0px 3px;
         transition: box-shadow 0.3s;
     }
     .input-payment {
-        border: 1px solid $border-color;
+        border: 3px solid $pink-color;
+        background: $yellow-color;
         padding: 6px 10px 7px;
+        color: $navy-color;
         &::placeholder {
-            color: $border-color;
+            color: #8576AB;
         }
     }
     @at-root .cart-item {
@@ -191,8 +214,9 @@ main {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background: white;
-        border: 1px solid var(--border-color);
+        background: $light-mint;
+        // background: #F79AD3;
+        // border: 1px solid var(--border-color);
         border-radius: 5px;
         padding: 6px 10px 6px 8px;
         &:not(:first-child) {
@@ -200,10 +224,11 @@ main {
         }
         img {
             width: 18px;
-            aspect-ratio: 18px / 33px;
+            aspect-ratio: 18px / 25px;
         }
         .drink-name {
             font-size: 9px;
+            color: $navy-color;
         }
         .drink-count {
             display: inline-block;
@@ -211,27 +236,29 @@ main {
             height: 30px;
             font-size: 1.4rem;
             text-align: center;
-            border-radius: 5px;
-            border: 1px solid $border-color;
-            box-sizing: border-box;
             padding-top: 3px;
+            background: #F79AD3;
+            color: $navy-color;
+            border: 3px solid #FE68B0;
+            border-radius: 5px;
         }
     }
     .btn-gain {
-        background: $main-color;
-        color: white;
+        background: #5208CB;
     }
 }
 
 .list-currentCart {
     height: 106px;
-    background: $bg-color;
-    border: 1px solid var(--border-color);
+    background: #FE68B0;
+    border: 3px solid #7155A0;
     padding: 12px;
-    padding-right: 8px;
-    overflow-y: scroll;
+    overflow-y: auto;
     .cart-item {
         position: relative;
+    }
+    .cart-item img {
+        padding: 3px 0;
     }
     .cart-item::after {
         content: "";
@@ -241,26 +268,23 @@ main {
         height: 100%;
         top: 0;
         left: 0;
-        background: black;
+        background: $light-mint;
         opacity: 0.5;
         border-radius: 5px;
-    }
-    .drink-count {
-        background: white;
     }
     .btn-sub, .btn-add, .btn-remove {
         display: none;
         position: absolute;
-        background: white;
+        background: #FE68B0;
         width: 20px;
         height: 20px;
         font-size: 1.4rem;
         text-align: center;
         border-radius: 5px;
-        border: 1px solid $border-color;
-        box-sizing: border-box;
         z-index: 10;
         line-height: 8px;
+        padding-left: 1px;
+        color: $light-mint;
     }
     .btn-sub {
         left: 40px;
@@ -279,8 +303,7 @@ main {
         top: -5px;
         padding-bottom: 3px;
         background: $main-color;
-        color: white;
-        border-color: white;
+        color: $yellow-color;
         &:hover {
             background: $main-dark-color;
         }
@@ -313,21 +336,19 @@ main {
 
 /* ------------------------------- section: reciept */
 .section-reciept {
+    padding: 20px 25px 25px;
     height: 100%;
-    & > * {
-        background: white;
-    }
     .possessed {
-        
-        padding: 9px 27px;
+        padding: 10px 15px;
         margin-bottom: 20px;
+        border: 3px solid #3E68B9;
         * {
             font-size: 14px;
         }
         p {
-            background: $bg-color;
+            color: $navy-color;
+            background: $yellow-color;
             padding: 6px 10px;
-            border-radius: 5px;
         }
         span {
             float: right;
@@ -337,17 +358,20 @@ main {
 }
 
 .gain-wrapper {
-    padding: 25px 27px 52px;
     h3 {
+        text-align: center;
         font-size: 14px;
         font-weight: 700;
-        text-align: center;
-        padding-bottom: 13px;
+        // width: 100px;
+        // padding-bottom: 13px;
+        padding: 10px;
+        background: $navy-color;
+        color: $light-mint;
+        margin-bottom: 10px;
     }
     .list-finalCart {
-        background: $bg-color;
-        border: 1px solid $border-color;
-        border-radius: 5px;
+        background: #FE68B0;
+        border: 3px solid #7155A0;
         padding: 12px;
         overflow-y: auto;
         min-height: 380px;
@@ -366,7 +390,8 @@ main {
         padding-top: 6px;
         float: right;
     }
-    .total-price > * {
+    .total-price, .total-price span  {
+        color: $navy-color;
         font-size: 12px;
     }
 }

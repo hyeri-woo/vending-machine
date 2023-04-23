@@ -11,12 +11,12 @@ const listFinal = document.querySelector(".list-finalCart");
 const modal = document.querySelector(".modal-wrapper");
 
 const drinkInfo = new Map();
-drinkInfo.set("Original_Cola", {color: "red", price: 1000, amount: 10});
-drinkInfo.set("Violet_Cola", {color: "violet", price: 1000, amount: 10});
-drinkInfo.set("Yellow_Cola", {color: "yellow", price: 1000, amount: 10});
-drinkInfo.set("Cool_Cola", {color: "blue", price: 1000, amount: 10});
-drinkInfo.set("Green_Cola", {color: "green", price: 1000, amount: 10});
-drinkInfo.set("Orange_Cola", {color: "orange", price: 1000, amount: 10});
+drinkInfo.set("HTML5", {type: "html", price: 1000, amount: 10});
+drinkInfo.set("CSS3", {type: "css", price: 1000, amount: 10});
+drinkInfo.set("JavaScript", {type: "js", price: 1000, amount: 10});
+drinkInfo.set("Vue_JS", {type: "vue", price: 1000, amount: 10});
+drinkInfo.set("React_JS", {type: "react", price: 1000, amount: 10});
+drinkInfo.set("TypeScript", {type: "ts", price: 1000, amount: 10});
 
 const msgWarning = new Map();
 msgWarning.set("No More Item", "아이템 수량이 부족합니다.");
@@ -144,7 +144,7 @@ drinks.forEach(item =>  {
 
 // cart 업데이트
 const updateCart = function(listCart, cartMap, drinkName, value, isCurrent) {
-    let drinkColor = drinkInfo.get(drinkName).color;
+    let drinkType = drinkInfo.get(drinkName).type;
     // cart 업데이트
     if(cartMap.has(drinkName)) {
         cartMap.set(drinkName, cartMap.get(drinkName)+value);
@@ -158,7 +158,7 @@ const updateCart = function(listCart, cartMap, drinkName, value, isCurrent) {
         itemCart.setAttribute("data-type", drinkName);
         // item img
         const itemImg = document.createElement("img");
-        itemImg.setAttribute("src", `./img/${drinkColor}.svg`);
+        itemImg.setAttribute("src", `./img/${drinkType}.svg`);
         itemImg.setAttribute("alt", drinkName);
         // item name
         const itemName = document.createElement("span");
