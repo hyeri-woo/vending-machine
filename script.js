@@ -11,8 +11,8 @@ const listFinal = document.querySelector(".list-finalCart");
 const modal = document.querySelector(".modal-wrapper");
 
 const drinkInfo = new Map();
-drinkInfo.set("HTML5", {type: "html", price: 1000, amount: 10});
-drinkInfo.set("CSS3", {type: "css", price: 1000, amount: 10});
+drinkInfo.set("HTML_5", {type: "html", price: 1000, amount: 10});
+drinkInfo.set("CSS_3", {type: "css", price: 1000, amount: 10});
 drinkInfo.set("JavaScript", {type: "js", price: 1000, amount: 10});
 drinkInfo.set("Vue_JS", {type: "vue", price: 1000, amount: 10});
 drinkInfo.set("React_JS", {type: "react", price: 1000, amount: 10});
