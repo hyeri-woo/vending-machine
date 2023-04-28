@@ -22,7 +22,13 @@ class VendingMachineEvents {
         this.msgWarning.set("No Enough Money", "소지금이 부족합니다.");
         this.msgWarning.set("Successful Gain", "성공적으로 아이템을 구매하였습니다.");
         this.msgWarning.set("Invalid Money Inserted", "입금액은 1000원 이상이어야 합니다.");
-        this.msgWarning.set("No Money to Return", "반환할 돈이 없습니다.")
+        this.msgWarning.set("No Money to Return", "반환할 돈이 없습니다.");
+        this.modal.querySelectorAll("button").forEach(item => 
+            item.addEventListener("click", () => {
+                new Audio("./audio/modal-click.mp3").play();
+                this.modal.classList.remove("on");
+            })
+        );
     }
 
     /* string 돈을 number로 변환하는 함수 */
@@ -36,19 +42,24 @@ class VendingMachineEvents {
     }
 
     /** Modal 생성 함수 
-     * 
+     * 1) 모달창을 켜준다. 
+     * 2) 해당 타이틀과 컨텐츠 텍스트를 설정해준다. 
+     * 3) btn-cancel을 눌렀을 시 0을 반환한다. 
+     * 4) btn-yes을 눌렀을 시 1을 반환한다. 
      */
     onModal(title) {
-        this.modal.classList.add("on");
-        this.modal.querySelector("h2").textContent = title;
-        this.modal.querySelector("p").textContent = this.msgWarning.get(title);
-        const btnCancel = this.modal.querySelector(".btn-cancel");
-        btnCancel.addEventListener("click", () => {
-            new Audio("./audio/modal-click.mp3").play();
-            this.modal.classList.remove("on");
+        return new Promise(resolve => {
+            this.modal.classList.add("on");
+            this.modal.querySelector("h2").textContent = title;
+            this.modal.querySelector("p").textContent = this.msgWarning.get(title);
+            new Audio("./audio/notify.mp3").play();
+            this.modal.querySelector(".btn-cancel").addEventListener("click", () => {
+                resolve(0);
+            });
+            this.modal.querySelector(".btn-yes").addEventListener("click", () => {
+                resolve(1);
+            });
         })
-        const btnYes = this.modal.querySelector(".btn-yes");
-        new Audio("./audio/notify.mp3").play();
     }
 
     /** 현재 장바구니 음료수 생성 함수 
@@ -89,9 +100,10 @@ class VendingMachineEvents {
         // 4) 현재 장바구니 안 해당 음료수 수량이 0이 될 시 삭제할지 경고창 출력
         // 5) yes 눌렀을시만 현재 장바구니에서 해당 음료수 삭제
         // 6) 자판기 안 해당 음료수가 품절처리 됐을 시 품절 취소
-        currentItem.querySelector(".btn-sub").addEventListener("click", () => {
+        currentItem.querySelector(".btn-sub").addEventListener("click", async () => {
             if(currentItem.dataset.count - 1 == 0) {
-                if(confirm("정말 삭제하시겠습니까?")) {
+                if(await this.onModal("Remove Item from Cart")) {
+                    target.classList.remove("active");
                     currentItem.remove();
                 } else {
                     return;
@@ -126,8 +138,8 @@ class VendingMachineEvents {
         // 3) 자판기 안 해당 음료수 수량 업데이트 (+ 장바구니 안 해당 음료수 수량)
         // 4) 현재 장바구니에서 해당 음료수 삭제 
         // 5) 자판기 안 해당 음료수가 품절처리 됐을 시 품절 취소
-        currentItem.querySelector(".btn-remove").addEventListener("click", () => {
-            if(confirm("삭제하시겠습니까?")) {
+        currentItem.querySelector(".btn-remove").addEventListener("click", async () => {
+            if(await this.onModal("Remove Item from Cart")) {
                 target.classList.remove("active");
                 this.inserted.textContent = this.numberToMoney(this.moneyToNumber(this.inserted.textContent) + target.dataset.cost * currentItem.dataset.count);
                 target.dataset.count = parseInt(target.dataset.count) + parseInt(currentItem.dataset.count);
@@ -192,7 +204,7 @@ class VendingMachineEvents {
          * 3) 입금액이 소지금보다 많으면 경고창 출력
          * 4) 입금액이 정상적으로 입금되면 입금창은 초기화
          */
-        this.btnPayment.addEventListener("click", () => {
+        this.btnPayment.addEventListener("click", async () => {
             const inputCost = this.moneyToNumber(this.inputPayment.value);       // 입금액
             const possessedVal = this.moneyToNumber(this.possessed.textContent); // 소지금
             const insertedVal = this.moneyToNumber(this.inserted.textContent);   // 잔액
