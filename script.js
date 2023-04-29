@@ -213,6 +213,7 @@ const updateCart = function(listCart, cartMap, drinkName, value, isCurrent) {
             insertedMoney += drinkInfo.get(drinkName).price;
             inserted.textContent = numberToMoney(insertedMoney);
             btnDrink.querySelector(".drink-amount").textContent = ++drinkInfo.get(drinkName).amount;
+            new Audio("./audio/modal-click.mp3").play();
         });
         // 카트에 든 음료수 개수 하나 추가
         btnAdd.addEventListener("click", () => {
@@ -229,10 +230,12 @@ const updateCart = function(listCart, cartMap, drinkName, value, isCurrent) {
             itemCount.innerText++;
             insertedMoney -= drinkInfo.get(drinkName).price;
             inserted.textContent = numberToMoney(insertedMoney);
+            new Audio("./audio/modal-click.mp3").play();
         })
         // 한번에 해당 음료수 전체 삭제
         btnRemove.addEventListener("click", () => {
             onModal("Remove Item from Cart", itemCart, itemCount, drinkName, btnDrink, true);
+            new Audio("./audio/modal-click.mp3").play();
         })
     }
 }

@@ -1,0 +1,38 @@
+[
+    {
+        "name": "HTML_5",
+        "cost": 1000,
+        "img": "html.png",
+        "count": 10
+    },
+    {
+        "name": "CSS_3",
+        "cost": 1000,
+        "img": "css.png",
+        "count": 10
+    },
+    {
+        "name": "JavaScript",
+        "cost": 1000,
+        "img": "js.png",
+        "count": 10
+    },
+    {
+        "name": "Vue_JS",
+        "cost": 1000,
+        "img": "vue.png",
+        "count": 10
+    },
+    {
+        "name": "React_JS",
+        "cost": 1000,
+        "img": "react.png",
+        "count": 10
+    },
+    {
+        "name": "TypeScript",
+        "cost": 1000,
+        "img": "ts.png",
+        "count": 10
+    }
+]

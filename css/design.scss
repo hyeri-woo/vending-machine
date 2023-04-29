@@ -1,12 +1,12 @@
 /* variables */
-$navy-color: #361588;
+$navy-color: #000972;
 $pink-color: #E745FA;
 $mint-color: #45F9FF;
 $light-mint: #E6F1F4;
 $yellow-color: #FFF7BA;
 $bg-color: #EAE8FE;
-$main-color: #6327FE;
-$main-dark-color: #32157b;
+$purple-color: #6327FE;
+$dark-purple-color: #32157b;
 $text-color: #333333;
 $border-color: #BDBDBD;
 
@@ -56,7 +56,7 @@ button {
 }
 
 body {
-    background: $bg-color;
+    // background: url(../img/background.png) no-repeat 0 0 / cover;
 }
 
 /* ------------------------------- header */
@@ -197,7 +197,7 @@ main {
         color: $light-mint;
     }
     & > button:hover {
-        box-shadow: $main-color 0px 0px 0px 3px;
+        box-shadow: $purple-color 0px 0px 0px 3px;
         transition: box-shadow 0.3s;
     }
     .input-payment {
@@ -237,6 +237,7 @@ main {
             font-size: 1.4rem;
             text-align: center;
             padding-top: 3px;
+            padding-left: 2px;
             background: #F79AD3;
             color: $navy-color;
             border: 3px solid #FE68B0;
@@ -302,10 +303,10 @@ main {
         right: -5px;
         top: -5px;
         padding-bottom: 3px;
-        background: $main-color;
+        background: $purple-color;
         color: $yellow-color;
         &:hover {
-            background: $main-dark-color;
+            background: $dark-purple-color;
         }
     }
     .cart-item:hover {
@@ -467,7 +468,7 @@ main {
     }
     button {
         margin-top: 20px;
-        background: $main-color;
+        background: $purple-color;
         color: white;
         padding: 8px 10px;
         width: 70px;

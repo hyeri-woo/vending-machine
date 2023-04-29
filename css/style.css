@@ -1,12 +1,6 @@
 /* variables */
 /* common */
 @import url("https://cdn.jsdelivr.net/npm/galmuri@latest/dist/galmuri.css");
-@font-face {
-  font-family: "DungGeunMo";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
-}
 * {
   font-family: "Galmuri9";
   font-weight: 500;
@@ -49,7 +43,7 @@ button {
 }
 
 body {
-  background: #EAE8FE;
+  background: #8854F4;
 }
 
 /* ------------------------------- header */
@@ -75,6 +69,8 @@ main section {
 
 /* ------------------------------- section: vending */
 .section-vending {
+  border: 2px solid #000972;
+  box-shadow: 3px 3px 0 #000972;
   background: white;
   padding: 31px 27px 28px;
 }
@@ -87,22 +83,29 @@ main section {
 .list-drink button {
   position: relative;
   border-radius: 10px;
-  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
+  background: white;
+  border: 1px solid #669AFF;
+  box-shadow: 3px 3px 0px #669AFF;
   padding: 11px 12px 9px;
   overflow: hidden;
 }
 .list-drink button.active {
-  box-shadow: #6327FE 0px 0px 0px 3px;
+  box-shadow: #000972 0px 0px 0px 3px;
+  background: #FFF780;
+}
+.list-drink button.active .display-circle {
+  background: #63FEBA;
 }
 .list-drink button:not(.soldout):hover {
-  box-shadow: #6327FE 0px 0px 0px 3px;
+  box-shadow: #000972 0px 0px 0px 3px;
 }
 .list-drink button:not(.soldout):active {
   background-color: rgba(0, 0, 0, 0.5);
   transition: all 0.2s;
 }
 .list-drink img {
-  margin-bottom: 6px;
+  width: 40px;
+  margin: 10px;
 }
 .list-drink .drink-amount {
   position: absolute;
@@ -112,17 +115,26 @@ main section {
   color: grey;
 }
 .list-drink .drink-name {
-  font-size: 9px;
+  font-weight: bold;
+  font-size: 10px;
   color: #333333;
 }
 .list-drink .drink-price {
   display: inline-block;
   font-size: 12px;
   color: white;
-  background: #6327FE;
+  background: #000972;
   border-radius: 50px;
-  padding: 3px 15px;
+  padding: 5px 7px;
   margin-top: 7px;
+}
+.list-drink .drink-price .display-circle {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin: 0 7px 2px 0;
+  background: #FF79AC;
+  border-radius: 50%;
 }
 .list-drink .soldout-text {
   display: inline-block;
@@ -162,17 +174,21 @@ main section {
   border-radius: 5px;
 }
 .counter-wrapper .inserted {
-  background: #EAE8FE;
+  background: #FFF780;
+  color: #333333;
   padding: 5px 10px;
   font-size: 14px;
 }
 .counter-wrapper > button {
-  border: 1px solid #BDBDBD;
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
 }
 .counter-wrapper > button:hover {
-  box-shadow: #6327FE 0px 0px 0px 3px;
+  box-shadow: #000972 0px 0px 0px 3px;
   transition: box-shadow 0.3s;
+}
+.counter-wrapper .btn-return {
+  background: #669AFF;
+  color: white;
 }
 .counter-wrapper .input-payment {
   border: 1px solid #BDBDBD;
@@ -190,14 +206,16 @@ main section {
   justify-content: space-between;
   align-items: center;
   background: white;
-  border: 1px solid var(--border-color);
-  border-radius: 5px;
+  border: 1px solid #000972;
+  box-shadow: 3px 3px 0px #000972;
+  border-radius: 8px;
   padding: 6px 10px 6px 8px;
 }
 .cart-item:not(:first-child) {
   margin-top: 6px;
 }
 .cart-item img {
+  padding: 3px 0px;
   width: 18px;
   aspect-ratio: 18px/33px;
 }
@@ -213,18 +231,21 @@ main section {
   border-radius: 5px;
   border: 1px solid #BDBDBD;
   box-sizing: border-box;
-  padding-top: 3px;
+  padding-left: 1px;
+  padding-top: 5px;
 }
 
 .counter-wrapper .btn-gain {
-  background: #6327FE;
+  background: #000972;
   color: white;
 }
 
 .list-currentCart {
   height: 106px;
-  background: #EAE8FE;
-  border: 1px solid var(--border-color);
+  background: #FF79AC;
+  border: 1px solid #000972;
+  border-radius: 5px;
+  box-shadow: 3px 3px 0px inset #000972;
   padding: 12px;
   padding-right: 8px;
   overflow-y: scroll;
@@ -260,6 +281,7 @@ main section {
   box-sizing: border-box;
   z-index: 10;
   line-height: 8px;
+  padding-left: 1px;
 }
 .list-currentCart .btn-sub {
   left: 40px;
@@ -277,12 +299,12 @@ main section {
   right: -5px;
   top: -5px;
   padding-bottom: 3px;
-  background: #6327FE;
+  background: #000972;
   color: white;
   border-color: white;
 }
 .list-currentCart .btn-remove:hover {
-  background: #32157b;
+  background: #63FEBA;
 }
 .list-currentCart .cart-item:hover .drink-count {
   position: absolute;
@@ -315,14 +337,17 @@ main section {
   background: white;
 }
 .section-reciept .possessed {
-  padding: 9px 27px;
+  border: 2px solid #000972;
+  box-shadow: 3px 3px 0 #000972;
+  padding: 15px 27px;
   margin-bottom: 20px;
 }
 .section-reciept .possessed * {
   font-size: 14px;
 }
 .section-reciept .possessed p {
-  background: #EAE8FE;
+  color: #333333;
+  background: #63FEBA;
   padding: 6px 10px;
   border-radius: 5px;
 }
@@ -332,6 +357,8 @@ main section {
 }
 
 .gain-wrapper {
+  border: 2px solid #000972;
+  box-shadow: 3px 3px 0 #000972;
   padding: 25px 27px 52px;
 }
 .gain-wrapper h3 {
@@ -339,11 +366,13 @@ main section {
   font-weight: 700;
   text-align: center;
   padding-bottom: 13px;
+  color: #FF8E58;
 }
 .gain-wrapper .list-finalCart {
-  background: #EAE8FE;
-  border: 1px solid #BDBDBD;
+  background: #FF8E58;
+  border: 1px solid #000972;
   border-radius: 5px;
+  box-shadow: 4px 4px 0px inset #000972;
   padding: 12px;
   overflow-y: auto;
   min-height: 380px;
@@ -424,7 +453,7 @@ main section {
 }
 .article-modal button {
   margin-top: 20px;
-  background: #6327FE;
+  background: #000972;
   color: white;
   padding: 8px 10px;
   width: 70px;

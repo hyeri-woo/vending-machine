@@ -10,7 +10,15 @@
 <body>
     <!-- header -->
     <header>
-        <h1><img src="./img/logo2-export.png" alt="FRONT-END"></h1>
+        <h1><img src="./img/logo.png" alt="FRONT-END logo"></h1>
+        <h2><img src="./img/press-start-export.png" alt="press start"></h2>
+        <div class="slot-wrapper">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
     </header>
     <main>
         <!-- section: vending -->
@@ -20,7 +28,7 @@
             <ul class="list-drink">
                 <!-- js active으로 조절 -->
                 <!-- js soldout으로 조절 -->
-                <li><button class="btn-item" type="button" data-type="HTML_5">
+                <!-- <li><button class="btn-item" type="button" data-type="HTML_5">
                     <span class="drink-amount"></span>
                     <img src="./img/html.svg" alt="HTML 음료수">
                     <span class="drink-name">HTML_5</span>
@@ -61,41 +69,41 @@
                     <span class="drink-name">TypeScript</span>
                     <span class="drink-price"><span class="display-circle"></span>1000원</span>
                     <strong class="soldout-text"><span>품절</span></strong>
-                </button></li>
+                </button></li> -->
             </ul>
             <!-- 계산대 -->
             <div class="counter-wrapper">
                 <!-- 잔액 표시 -->
                 <p class="inserted">
-                    잔액: <span></span>
+                    잔액: <span>0원</span>
                 </p>
                 <!-- 거스름돈 반환 -->
                 <button class="btn-return" type="button">거스름돈 반환</button>
                 <!-- 입금액 입력 -->
                 <label class="a11y-hidden" for="inputPayment">입금액 입력</label>
-                <input class="input-payment" id="inputPayment" type="number" step="100" placeholder="입금액 입력" min="0" max="100000" required>
+                <input class="input-payment" id="inputPayment" type="number" step="1000" placeholder="입금액 입력" min="0" max="100000" required>
                 <!-- 입금 버튼 -->
                 <button class="btn-payment" type="button">입금</button>
                 <!-- 현재 카트 -->
                 <ul class="list-currentCart">
-                    <li class="cart-item" data-type="Orange_Cola">
+                    <!-- <li class="cart-item" data-type="Orange_Cola">
                             <img src="./img/html.svg" alt="오리지널 콜라">
                             <span class="drink-name">Original_Cola</span>
                             <span class="drink-count">1</span>
                             <button class="btn-sub" type="button">-</button>
                             <button class="btn-add" type="button">+</button>
                             <button class="btn-remove" type="button">x</button>
-                    </li>
+                    </li> -->
                 </ul>
                 <!-- 획득 버튼 -->
-                <button class="btn-gain" type="submit">획득</button>
+                <button class="btn-gain" type="button">획득</button>
             </div>
         </section>
         <!-- section: reciept -->
         <section class="section-reciept">
             <!-- 소지금 -->
             <div class="possessed">
-                <p>소지금: <span></span></p>
+                <p>소지금: <span>50,000원</span></p>
             </div>
             <h2 class="a11y-hidden">영수증</h2>
             <!-- 획득한 음료 -->
@@ -120,12 +128,19 @@
     <!-- article: modal -->
     <div class="modal-wrapper">
         <article class="article-modal">
-            <h2>모달창</h2>
+            <h2>제목</h2>
             <p>설명</p>
             <button class="btn-cancel" type="button">Cancel</button>
             <button class="btn-yes" type="button">Yes</button>
         </article>
     </div>
-    <script src="script.js"></script>
+    <!-- button wrapper -->
+    <div class="button-wrapper">
+        <p class="notice-playing">bgm is playing ~ &#9834</p>
+        <button class="btn-pause" type="button"><span class="text">||</span><span class="a11y-hidden notice-text">music started</span></button>
+        <button class="btn-reset" type="button">reset</button>
+    </div>
+    <script type="module" src="js/index.js"></script>
+    <!-- <script src="script.js"></script> -->
 </body>
 </html>

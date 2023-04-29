@@ -8,8 +8,6 @@
   box-sizing: border-box;
 }
 
-
-
 .a11y-hidden {
   clip: rect(1px, 1px, 1px, 1px);
   -webkit-clip-path: inset(50%);
@@ -42,10 +40,6 @@ button {
   border: none;
   box-shadow: none;
   cursor: pointer;
-}
-
-body {
-  background: #EAE8FE;
 }
 
 /* ------------------------------- header */
@@ -115,13 +109,13 @@ main section {
 .list-drink .drink-name {
   font-size: 10px;
   font-weight: bold;
-  color: #361588;
+  color: #000972;
 }
 .list-drink .drink-price {
   display: inline-block;
   font-size: 12px;
   color: white;
-  background: #361588;
+  background: #000972;
   padding: 3px 7px;
   margin-top: 7px;
 }
@@ -172,14 +166,14 @@ main section {
   font-size: 13px;
 }
 .counter-wrapper .inserted {
-  border: 3px solid #361588;
+  border: 3px solid #000972;
   background: #7883FE;
-  color: #361588;
+  color: #000972;
   padding: 5px 10px;
   font-size: 14px;
 }
 .counter-wrapper > button {
-  background: #361588;
+  background: #000972;
   color: #E6F1F4;
 }
 .counter-wrapper > button:hover {
@@ -190,7 +184,7 @@ main section {
   border: 3px solid #E745FA;
   background: #FFF7BA;
   padding: 6px 10px 7px;
-  color: #361588;
+  color: #000972;
 }
 .counter-wrapper .input-payment::-moz-placeholder {
   color: #8576AB;
@@ -216,7 +210,7 @@ main section {
 }
 .cart-item .drink-name {
   font-size: 9px;
-  color: #361588;
+  color: #000972;
 }
 .cart-item .drink-count {
   display: inline-block;
@@ -225,8 +219,9 @@ main section {
   font-size: 1.4rem;
   text-align: center;
   padding-top: 3px;
+  padding-left: 2px;
   background: #F79AD3;
-  color: #361588;
+  color: #000972;
   border: 3px solid #FE68B0;
   border-radius: 5px;
 }
@@ -333,7 +328,7 @@ main section {
   font-size: 14px;
 }
 .section-reciept .possessed p {
-  color: #361588;
+  color: #000972;
   background: #FFF7BA;
   padding: 6px 10px;
 }
@@ -347,7 +342,7 @@ main section {
   font-size: 14px;
   font-weight: 700;
   padding: 10px;
-  background: #361588;
+  background: #000972;
   color: #E6F1F4;
   margin-bottom: 10px;
 }
@@ -373,7 +368,7 @@ main section {
   float: right;
 }
 .gain-wrapper .total-price, .gain-wrapper .total-price span {
-  color: #361588;
+  color: #000972;
   font-size: 12px;
 }
 
@@ -443,4 +438,4 @@ main section {
 }
 .article-modal .btn-cancel {
   margin-right: 10px;
-}/*# sourceMappingURL=style.css.map */
+}/*# sourceMappingURL=design.css.map */
