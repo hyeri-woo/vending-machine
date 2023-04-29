@@ -43,16 +43,71 @@ button {
 }
 
 body {
-  background: #8854F4;
+  background: #FF79AC;
 }
 
+/* ------------------------------- start screen animations */
+@keyframes blinking {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes move-coin {
+  to {
+    background-position: right 0;
+  }
+}
 /* ------------------------------- header */
 header {
-  text-align: center;
-  margin-bottom: 67px;
+  padding: 40px 0;
+  position: fixed;
+  background: #FF79AC;
+  z-index: 20;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
-header img {
-  max-width: 386px;
+header h1 img {
+  width: 750px;
+  -o-object-fit: contain;
+     object-fit: contain;
+  box-shadow: 3px 3px 0px #000972;
+}
+header h2 img {
+  width: 500px;
+  box-shadow: none;
+  animation: blinking 1s ease-in-out infinite alternate;
+  padding-top: 50px;
+}
+header .slot-wrapper {
+  display: flex;
+  gap: 30px;
+  padding: 30px;
+}
+header .slot-wrapper div {
+  width: 54px;
+  height: 54px;
+  background: url("../img/coin.png") no-repeat 0 0/auto 100%;
+  animation: move-coin 0.8s infinite steps(5);
+}
+header .slot-wrapper div:nth-child(2) {
+  animation-delay: 0.5s;
+}
+header .slot-wrapper div:nth-child(3) {
+  animation-delay: 1s;
+}
+header .slot-wrapper div:nth-child(4) {
+  animation-delay: 1.5s;
+}
+header .slot-wrapper div:nth-child(5) {
+  animation-delay: 2s;
 }
 
 /* ------------------------------- main */
@@ -61,6 +116,7 @@ main {
   display: flex;
   justify-content: space-between;
   margin: auto;
+  margin-bottom: 40px;
 }
 main section {
   flex-basis: 360px;
@@ -70,7 +126,7 @@ main section {
 /* ------------------------------- section: vending */
 .section-vending {
   border: 2px solid #000972;
-  box-shadow: 3px 3px 0 #000972;
+  box-shadow: 4px 4px 0 #000972, 0px 4px 0 inset #63FEBA, 4px 0 0 inset #8854F4;
   background: white;
   padding: 31px 27px 28px;
 }
@@ -83,24 +139,21 @@ main section {
 .list-drink button {
   position: relative;
   border-radius: 10px;
-  background: white;
-  border: 1px solid #669AFF;
-  box-shadow: 3px 3px 0px #669AFF;
+  background: #FFF780;
+  border: 1px solid #000972;
+  box-shadow: 3px 3px 0px #000972;
   padding: 11px 12px 9px;
   overflow: hidden;
 }
 .list-drink button.active {
-  box-shadow: #000972 0px 0px 0px 3px;
-  background: #FFF780;
+  background: #FF8E58;
 }
 .list-drink button.active .display-circle {
   background: #63FEBA;
 }
-.list-drink button:not(.soldout):hover {
-  box-shadow: #000972 0px 0px 0px 3px;
-}
 .list-drink button:not(.soldout):active {
-  background-color: rgba(0, 0, 0, 0.5);
+  box-shadow: none;
+  transform: translate(3px, 3px);
   transition: all 0.2s;
 }
 .list-drink img {
@@ -143,7 +196,7 @@ main section {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(255, 251, 242, 0.8);
 }
 .list-drink .soldout-text span {
   display: inline-block;
@@ -152,8 +205,8 @@ main section {
   right: 20%;
   width: 55px;
   font-size: 14px;
-  color: #EAE8FE;
-  border: 6px double #EAE8FE;
+  color: #000972;
+  border: 6px double #000972;
   transform: rotate(-18deg);
 }
 .list-drink button.soldout {
@@ -174,25 +227,31 @@ main section {
   border-radius: 5px;
 }
 .counter-wrapper .inserted {
-  background: #FFF780;
+  background: #63FEBA;
   color: #333333;
   padding: 5px 10px;
   font-size: 14px;
 }
 .counter-wrapper > button {
-  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
+  color: white;
+  transition: all 0.2s;
+  box-shadow: 3px 3px 0px #000972;
 }
-.counter-wrapper > button:hover {
-  box-shadow: #000972 0px 0px 0px 3px;
-  transition: box-shadow 0.3s;
+.counter-wrapper > button:active {
+  box-shadow: none;
+  transform: translate(3px, 3px);
 }
 .counter-wrapper .btn-return {
   background: #669AFF;
-  color: white;
+}
+.counter-wrapper .btn-payment {
+  background: #8854F4;
 }
 .counter-wrapper .input-payment {
-  border: 1px solid #BDBDBD;
-  padding: 6px 10px 7px;
+  box-shadow: inset 3px 3px 0px #000972;
+  color: #000972;
+  border: 1px solid #000972;
+  padding: 8px 10px 7px;
 }
 .counter-wrapper .input-payment::-moz-placeholder {
   color: #BDBDBD;
@@ -229,7 +288,9 @@ main section {
   font-size: 1.4rem;
   text-align: center;
   border-radius: 5px;
-  border: 1px solid #BDBDBD;
+  border: 1px solid white;
+  background: #000972;
+  color: white;
   box-sizing: border-box;
   padding-left: 1px;
   padding-top: 5px;
@@ -265,19 +326,17 @@ main section {
   opacity: 0.5;
   border-radius: 5px;
 }
-.list-currentCart .drink-count {
-  background: white;
-}
 .list-currentCart .btn-sub, .list-currentCart .btn-add, .list-currentCart .btn-remove {
   display: none;
   position: absolute;
-  background: white;
+  color: white;
+  background: #669AFF;
   width: 20px;
   height: 20px;
   font-size: 1.4rem;
   text-align: center;
   border-radius: 5px;
-  border: 1px solid #BDBDBD;
+  border: 1px solid white;
   box-sizing: border-box;
   z-index: 10;
   line-height: 8px;
@@ -287,13 +346,13 @@ main section {
   left: 40px;
 }
 .list-currentCart .btn-sub:hover {
-  background: #BDBDBD;
+  background: #8854F4;
 }
 .list-currentCart .btn-add {
   right: 40px;
 }
 .list-currentCart .btn-add:hover {
-  background: #BDBDBD;
+  background: #8854F4;
 }
 .list-currentCart .btn-remove {
   right: -5px;
@@ -338,7 +397,7 @@ main section {
 }
 .section-reciept .possessed {
   border: 2px solid #000972;
-  box-shadow: 3px 3px 0 #000972;
+  box-shadow: 4px 4px 0 #000972, 0px 4px 0 inset #8854F4, 4px 0 0 inset #FF8E58;
   padding: 15px 27px;
   margin-bottom: 20px;
 }
@@ -358,7 +417,7 @@ main section {
 
 .gain-wrapper {
   border: 2px solid #000972;
-  box-shadow: 3px 3px 0 #000972;
+  box-shadow: 4px 4px 0 #000972, 0px 4px 0 inset #FFF780, 4px 0 0 inset #669AFF;
   padding: 25px 27px 52px;
 }
 .gain-wrapper h3 {
@@ -397,20 +456,25 @@ main section {
 
 /* ------------------------------- media-mobile */
 @media (max-width: 749px) {
-  body {
-    background: white;
-  }
   header {
-    margin-bottom: 18px;
+    padding-bottom: 20px;
   }
-  header img {
-    width: 166px;
+  header h1 img {
+    width: 360px;
+  }
+  header h2 img {
+    width: 300px;
+  }
+  header .slot-wrapper div {
+    width: 27px;
+    height: 27px;
   }
   main {
     flex-direction: column;
+    gap: 20px;
     width: 360px;
   }
-  main .gain-wrapper {
+  main .section-reciept {
     padding-bottom: 69px;
   }
 }
@@ -418,7 +482,7 @@ main section {
 .modal-wrapper {
   display: none;
   position: fixed;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(255, 251, 242, 0.7);
   width: 100vw;
   height: 100vh;
   top: 0;
@@ -432,33 +496,77 @@ main section {
   top: 35%;
   left: calc(50% - 150px);
   width: 300px;
-  border: 2px solid #BDBDBD;
-  border-radius: 20px;
+  border: 3px solid #000972;
+  box-shadow: 3px 3px 0px #000972;
   overflow: hidden;
   padding-bottom: 10px;
   text-align: center;
   position: fixed;
-  background: white;
+  background: #FFF780;
 }
 .article-modal h2 {
   padding: 10px;
-  border-bottom: 2px solid #BDBDBD;
-  background: #EAE8FE;
-  color: grey;
+  border-top: 3px solid #63FEBA;
+  border-bottom: 3px solid #8854F4;
+  background: #669AFF;
+  color: white;
   font-size: 15px;
 }
 .article-modal p {
+  margin: 10px;
   padding: 10px;
-  color: grey;
+  color: white;
+  background: #FF79AC;
+  border-bottom: 2px solid #8854F4;
+  border-right: 2px solid #000972;
+  border-top: 4px solid #000972;
+  border-left: 4px solid #000972;
 }
 .article-modal button {
-  margin-top: 20px;
-  background: #000972;
+  background: #8854F4;
+  border: 1px solid #000972;
+  box-shadow: 2px 2px 0px #000972;
   color: white;
   padding: 8px 10px;
   width: 70px;
   border-radius: 5px;
 }
+.article-modal button:hover {
+  background: #FF8E58;
+}
+.article-modal button:active {
+  box-shadow: none;
+  transform: translate(2px, 2px);
+  transition: all 0.2s;
+}
 .article-modal .btn-cancel {
   margin-right: 10px;
+}
+
+/* ------------------------------- button wrapper */
+.button-wrapper {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  padding: 20px;
+}
+.button-wrapper .notice-playing {
+  color: #000972;
+  font-size: 13px;
+  padding-bottom: 10px;
+}
+.button-wrapper button {
+  background: #000972;
+  color: #FFF780;
+  padding: 10px;
+  font-size: 15px;
+  box-shadow: 3px 3px 0px #63FEBA;
+  margin-right: 10px;
+}
+.button-wrapper span {
+  font-size: 15px;
+  font-weight: bold;
+}
+.button-wrapper .btn-pause {
+  width: 50px;
 }/*# sourceMappingURL=style.css.map */
