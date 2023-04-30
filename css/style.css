@@ -73,6 +73,7 @@ header {
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  transition: all 2s ease;
 }
 header h1 img {
   width: 750px;
@@ -98,16 +99,16 @@ header .slot-wrapper div {
   animation: move-coin 0.8s infinite steps(5);
 }
 header .slot-wrapper div:nth-child(2) {
-  animation-delay: 0.5s;
+  animation-delay: 0.3s;
 }
 header .slot-wrapper div:nth-child(3) {
-  animation-delay: 1s;
+  animation-delay: 0.6s;
 }
 header .slot-wrapper div:nth-child(4) {
-  animation-delay: 1.5s;
+  animation-delay: 0.9s;
 }
 header .slot-wrapper div:nth-child(5) {
-  animation-delay: 2s;
+  animation-delay: 1.2s;
 }
 
 /* ------------------------------- main */
@@ -463,6 +464,7 @@ main section {
     width: 360px;
   }
   header h2 img {
+    padding-top: 20px;
     width: 300px;
   }
   header .slot-wrapper div {
@@ -518,7 +520,7 @@ main section {
   color: white;
   background: #FF79AC;
   border-bottom: 2px solid #8854F4;
-  border-right: 2px solid #000972;
+  border-right: 2px solid #669AFF;
   border-top: 4px solid #000972;
   border-left: 4px solid #000972;
 }
@@ -562,6 +564,11 @@ main section {
   font-size: 15px;
   box-shadow: 3px 3px 0px #63FEBA;
   margin-right: 10px;
+}
+.button-wrapper button:active {
+  box-shadow: none;
+  transform: translate(3px, 3px);
+  transition: all 0.2s;
 }
 .button-wrapper span {
   font-size: 15px;

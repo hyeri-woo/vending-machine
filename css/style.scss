@@ -87,6 +87,7 @@ header {
     justify-content: center;
     flex-direction: column;
     align-items: center;
+    transition: all 2s ease;
     h1 img {
         width: 750px;
         object-fit: contain;
@@ -109,20 +110,19 @@ header {
             animation: move-coin 0.8s infinite steps(5);
         }
         div:nth-child(2) {
-            animation-delay: 0.5s;
+            animation-delay: 0.3s;
         }
         div:nth-child(3) {
-            animation-delay: 1s;
+            animation-delay: 0.6s;
         }
         div:nth-child(4) {
-            animation-delay: 1.5s;
+            animation-delay: 0.9s;
         }
         div:nth-child(5) {
-            animation-delay: 2s;
+            animation-delay: 1.2s;
         }
     }
 }
-
 
 /* ------------------------------- main */
 main {
@@ -474,6 +474,7 @@ main {
             width: 360px;
         }
         h2 img {
+            padding-top: 20px;
             width: 300px;
         }
         .slot-wrapper div {
@@ -531,7 +532,7 @@ main {
         color: white;
         background: $pink-color;
         border-bottom: 2px solid $purple-color;
-        border-right: 2px solid $navy-color;
+        border-right: 2px solid $blue-color;
         border-top: 4px solid $navy-color;
         border-left: 4px solid $navy-color;
     }
@@ -576,6 +577,11 @@ main {
         font-size: 15px;
         box-shadow: 3px 3px 0px $mint-color;
         margin-right: 10px;
+        &:active {
+            box-shadow: none;
+            transform: translate(3px, 3px);
+            transition: all 0.2s;
+        }
     }
     span {
         font-size: 15px;
