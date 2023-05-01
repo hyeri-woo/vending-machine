@@ -331,6 +331,7 @@ class VendingMachineEvents {
                 this.itemList.querySelectorAll("button").forEach((item, index) => {
                     item.classList.remove("active");
                     item.classList.remove("soldout");
+                    item.disabled = false;
                     item.dataset.count = this.startCount[index];
                     item.querySelector(".drink-amount").textContent = item.dataset.count;
                 });
