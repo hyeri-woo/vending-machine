@@ -4,7 +4,6 @@ class StartScreenEvents {
         this.logo = this.header.querySelector("h1");
         this.pressStart = this.header.querySelector("h2");
         this.slot = this.header.querySelector(".slot-wrapper");
-
         this.btnPause = document.querySelector(".btn-pause");
     }
 
@@ -24,7 +23,7 @@ class StartScreenEvents {
             setTimeout(function() {
                 bgmAudio.loop = true;
                 bgmAudio.volume = 0.3;
-                bgmAudio.play();
+                //bgmAudio.play();
             }, 1500);
         }, {once: true});
 

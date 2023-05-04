@@ -110,12 +110,9 @@ class VendingMachineEvents {
         // 6) 자판기 안 해당 음료수가 품절처리 됐을 시 품절 취소
         currentItem.querySelector(".btn-sub").addEventListener("click", async () => {
             if(currentItem.dataset.count - 1 == 0) {
-                if(await this.onModal("Remove Item from Cart")) {
-                    target.classList.remove("active");
-                    currentItem.remove();
-                } else {
-                    return;
-                }
+                if(!await this.onModal("Remove Item from Cart")) return;
+                target.classList.remove("active");
+                currentItem.remove();
             }
             this.inserted.textContent = this.numberToMoney(this.moneyToNumber(this.inserted.textContent) + parseInt(target.dataset.cost));
             target.dataset.count = parseInt(target.dataset.count) + 1;
@@ -158,18 +155,17 @@ class VendingMachineEvents {
         // 4) 현재 장바구니에서 해당 음료수 삭제 
         // 5) 자판기 안 해당 음료수가 품절처리 됐을 시 품절 취소
         currentItem.querySelector(".btn-remove").addEventListener("click", async () => {
-            if(await this.onModal("Remove Item from Cart")) {
-                target.classList.remove("active");
-                this.inserted.textContent = this.numberToMoney(this.moneyToNumber(this.inserted.textContent) + target.dataset.cost * currentItem.dataset.count);
-                target.dataset.count = parseInt(target.dataset.count) + parseInt(currentItem.dataset.count);
-                target.querySelector(".drink-amount").textContent = target.dataset.count;
-                if(target.classList.contains("soldout")) {
-                    target.classList.remove("soldout");
-                    target.disabled = false;
-                }
-                currentItem.remove();
-                new Audio("./audio/modal-click.mp3").play();
+            if(!await this.onModal("Remove Item from Cart")) return;
+            target.classList.remove("active");
+            this.inserted.textContent = this.numberToMoney(this.moneyToNumber(this.inserted.textContent) + target.dataset.cost * currentItem.dataset.count);
+            target.dataset.count = parseInt(target.dataset.count) + parseInt(currentItem.dataset.count);
+            target.querySelector(".drink-amount").textContent = target.dataset.count;
+            if(target.classList.contains("soldout")) {
+                target.classList.remove("soldout");
+                target.disabled = false;
             }
+            currentItem.remove();
+            new Audio("./audio/modal-click.mp3").play();
         });
     }
 
@@ -177,10 +173,10 @@ class VendingMachineEvents {
      * 1) 장바구니에 이미 똑같은 음료수가 있을 시 수량 추가
      * 2) 없을 시 새로 추가
      */
-    finalItemGenerator(target) {
+    finalItemGenerator(target, isRandom=false) {
         for(let i of this.listFinal.querySelectorAll("li")) {
             if(i.dataset.item === target.dataset.item) {
-                i.querySelector(".drink-count").textContent = parseInt(i.querySelector(".drink-count").textContent) +  parseInt(target.dataset.count);
+                i.querySelector(".drink-count").textContent = parseInt(i.querySelector(".drink-count").textContent) + (isRandom ? 1 : parseInt(target.dataset.count));
                 return;
             }
         }
@@ -190,14 +186,63 @@ class VendingMachineEvents {
         finalItem.innerHTML = `
             <img src="./img/${target.dataset.img}" alt="${target.dataset.item}">
             <span class="drink-name">${target.dataset.item}</span>
-            <span class="drink-count">${target.dataset.count}</span>
+            <span class="drink-count">${isRandom ? 1 : target.dataset.count}</span>
         `;
+        console.log(finalItem);
         this.listFinal.append(finalItem);
     }
 
+    /** Master 음료수 생성 함수
+     * 
+     */
+    masterItemGenerator(target) {
+        const masterItem = document.createElement("li");
+        masterItem.setAttribute("class", "cart-item");
+        masterItem.setAttribute("data-item", "FE_Master");
+        masterItem.setAttribute("data-img", "master.png");
+        masterItem.setAttribute("data-count", 1);
+        masterItem.setAttribute("data-cost", target.dataset.cost);
+        masterItem.innerHTML = `
+            <img src="./img/master.png" alt="FE_Master">
+            <span class="drink-name">FE_Master</span>
+            <span class="drink-count">1</span>
+            <button class="btn-sub" type="button">-</button>
+            <button class="btn-add" type="button">+</button>
+            <button class="btn-remove" type="button">x</button>
+        `;
+        return masterItem;
+    }
+
+    /** Random 음료수 생성 함수 (-> final 장바구니)
+     * 1) 10% 확률로 마스터 음료수 추가
+     * 2) 각 18% 확률로 다른 음료수 추가
+     *   - 1-18 -> 0: html 
+     *   - 19-36 -> 1: css
+     *   - 37-54 -> 2: js
+     *   - 55-72 -> 3: ts
+     *   - 73-90 -> 4: react
+     *   - 91-100 -> 5: master
+     */
+    randomItemGenerator(target) {
+        const drinkItems = this.itemList.querySelectorAll("button");
+        const randomList = [];
+        const randIndex = [18, 36, 54, 72, 90, 100];
+        for(let i=0; i<parseInt(target.dataset.count); i++) {
+            const randNum = Math.floor(Math.random()*100) + 1;
+            randomList.push(randIndex.filter(item => item < randNum).length);
+        }
+        console.log(randomList);
+        randomList.forEach(item => {
+            if(item === 5) {
+                this.finalItemGenerator(this.masterItemGenerator(target));
+            } else {
+                this.finalItemGenerator(drinkItems[item], true);
+            }
+        })
+    }
+
     bindEvent() {
-        /**
-         * 입금 금액 
+        /** 입금 금액 
          * 1) 사용자가 키보드를 사용해서 마이너스 값을 넣었을 때 경고창 출력
          * 2) 사용자가 키보드를 사용해서 1000원 단위보다 작은 값을 넣었을 때 반올림처리
          */
@@ -211,8 +256,7 @@ class VendingMachineEvents {
             this.inputPayment.value = Math.round(inputCost/1000) * 1000;
         });
 
-        /**
-         * 입금 버튼 기능
+        /** 입금 버튼 기능
          * 1) 소지금 == 소지금 - 입금액
          * 2) 잔액 == 기존 잔액 + 입금액
          * 3) 입금액이 소지금보다 많으면 경고창 출력
@@ -236,8 +280,7 @@ class VendingMachineEvents {
             }
         });
 
-        /**
-         * 거스름돈 반환 버튼 기능
+        /** 거스름돈 반환 버튼 기능
          * 1) 소지금 = 잔액 + 소지금
          * 2) 잔액 = 0원
          * 3) 반환할 잔액이 없을 시 경고창 출력
@@ -254,8 +297,7 @@ class VendingMachineEvents {
             }
         })
 
-        /**
-         * 장바구니 채우기
+        /** 장바구니 채우기
          * 1) 아이템을 누르면 잔액 = 잔액 - 아이템 가격
          * 2) 아이템 가격이 잔액보다 크다면 경고창 출력
          * 3) 아이템이 장바구니에 들어간다. 
@@ -287,11 +329,10 @@ class VendingMachineEvents {
             })
         })
 
-        /**
-         * 획득 버튼 기능
+        /** 획득 버튼 기능
          * 1) 현재 장바구니가 비었을 시 경고창을 출력한다
          * 2) 현재 장바구니를 비운다
-         * 3) 획득한 음료 채운다
+         * 3) 장바구니에 있는 음료수 목록이 획득한 음료수 목록으로 이동한다. 
          * 4) 총금액을 업데이트한다. 
          * 5) 선택된 음료수를 리셋한다. 
          */
@@ -300,23 +341,25 @@ class VendingMachineEvents {
                 this.onModal("No Item in Current Cart");
                 return;
             }
-            if(await this.onModal("Confirm Purchase")) {
-                let totalVal = this.moneyToNumber(this.totalPrice.textContent);
-                this.listCurrent.querySelectorAll("li").forEach((item) => {
-                    totalVal += item.dataset.count * item.dataset.cost;
+            if(!await this.onModal("Confirm Purchase")) return;
+            let totalVal = this.moneyToNumber(this.totalPrice.textContent);
+            this.listCurrent.querySelectorAll("li").forEach((item) => {
+                totalVal += item.dataset.count * item.dataset.cost;
+                if(item.dataset.item === "Random") {
+                    this.randomItemGenerator(item);
+                } else {
                     this.finalItemGenerator(item);
-                    item.remove();
-                })
-                this.itemList.querySelectorAll("button").forEach((item) => {
-                    item.classList.remove("active");
-                });
-                this.totalPrice.textContent = this.numberToMoney(totalVal);
-                new Audio("./audio/gain.mp3").play();
-            }
+                }
+                item.remove();
+            })
+            this.itemList.querySelectorAll("button").forEach((item) => {
+                item.classList.remove("active");
+            });
+            this.totalPrice.textContent = this.numberToMoney(totalVal);
+            new Audio("./audio/gain.mp3").play();
         })
 
-        /**
-         * 리셋 버튼 기능
+        /** 리셋 버튼 기능
          * 1) 음료수의 갯수를 다시 원래의 개수로 설정한다.
          * 2) 음료수에 걸려있는 active 와 soldout 전부 삭제한다.  
          * 3) 현재 장바구니를 비운다.
@@ -327,21 +370,20 @@ class VendingMachineEvents {
          * 8) total-price를 0원으로 설정한다. 
          */
         this.btnReset.addEventListener("click", async () => {
-            if(await this.onModal("Reset Vending Machine")) {
-                this.itemList.querySelectorAll("button").forEach((item, index) => {
-                    item.classList.remove("active");
-                    item.classList.remove("soldout");
-                    item.disabled = false;
-                    item.dataset.count = this.startCount[index];
-                    item.querySelector(".drink-amount").textContent = item.dataset.count;
-                });
-                this.listCurrent.querySelectorAll("li").forEach((item) => item.remove());
-                this.listFinal.querySelectorAll("li").forEach((item) => item.remove());
-                this.possessed.textContent = this.numberToMoney(50000);
-                this.inserted.textContent = this.numberToMoney(0);
-                this.inputPayment.value = null;
-                this.totalPrice.textContent = this.numberToMoney(0);
-            }
+            if(!await this.onModal("Reset Vending Machine")) return;
+            this.itemList.querySelectorAll("button").forEach((item, index) => {
+                item.classList.remove("active");
+                item.classList.remove("soldout");
+                item.disabled = false;
+                item.dataset.count = this.startCount[index];
+                item.querySelector(".drink-amount").textContent = item.dataset.count;
+            });
+            this.listCurrent.querySelectorAll("li").forEach((item) => item.remove());
+            this.listFinal.querySelectorAll("li").forEach((item) => item.remove());
+            this.possessed.textContent = this.numberToMoney(50000);
+            this.inserted.textContent = this.numberToMoney(0);
+            this.inputPayment.value = null;
+            this.totalPrice.textContent = this.numberToMoney(0);
         })
     }
 

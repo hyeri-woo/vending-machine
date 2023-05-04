@@ -18,9 +18,9 @@
         "count": 10
     },
     {
-        "name": "Vue_JS",
+        "name": "TypeScript",
         "cost": 1000,
-        "img": "vue.png",
+        "img": "ts.png",
         "count": 10
     },
     {
@@ -30,9 +30,9 @@
         "count": 10
     },
     {
-        "name": "TypeScript",
-        "cost": 1000,
-        "img": "ts.png",
+        "name": "Random",
+        "cost": 2000,
+        "img": "random.png",
         "count": 10
     }
 ]
