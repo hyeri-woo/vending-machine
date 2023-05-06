@@ -1,5 +1,7 @@
+import DrinkAnimationEvents from "./drinkAnimationEvents.js";
 class VendingMachineEvents {
     constructor() {
+        // vending machine DOM
         const vendingMachine = document.querySelector(".section-vending");
         this.inserted = vendingMachine.querySelector(".inserted span");
         this.itemList = vendingMachine.querySelector(".list-drink");
@@ -9,11 +11,13 @@ class VendingMachineEvents {
         this.btnGain = vendingMachine.querySelector(".btn-gain");
         this.listCurrent = vendingMachine.querySelector(".list-currentCart");
 
+        // reciept DOM
         const reciept = document.querySelector(".section-reciept");
         this.possessed = reciept.querySelector(".possessed span");
         this.listFinal = reciept.querySelector(".list-finalCart");
         this.totalPrice = reciept.querySelector(".total-price span");
 
+        // modal DOM
         this.modal = document.querySelector(".modal-wrapper");
         this.modal.querySelectorAll("button").forEach(item => 
             item.addEventListener("click", () => {
@@ -22,6 +26,7 @@ class VendingMachineEvents {
             })
         );
 
+        // modal message
         this.msgWarning = new Map();
         this.msgWarning.set("Money Needed", "돈이 부족합니다");
         this.msgWarning.set("Remove Item from Cart", "음료수를 현재 장바구니에서 삭제하시겠습니까?");
@@ -35,8 +40,12 @@ class VendingMachineEvents {
         this.msgWarning.set("Reset Vending Machine", "현재 음료수 자판기를 리셋하시겠습니까?");
         this.msgWarning.set("Confirm Purchase", "음료수 구매를 확정하겠습니까?");
 
+        // reset DOM
         this.btnReset = document.querySelector(".btn-reset");
-        this.startCount = [];
+        this.startCount = [];   // 음료수 갯수 배열
+
+        // drink animation generator
+        this.drinkAnimationEvents = new DrinkAnimationEvents();
     }
 
     /* string 돈을 number로 변환하는 함수 */
@@ -86,6 +95,7 @@ class VendingMachineEvents {
             }
         }
         const currentItem = document.createElement("li");
+        currentItem.classList.add("cart-item");
         currentItem.setAttribute("class", "cart-item");
         currentItem.setAttribute("data-item", target.dataset.item);
         currentItem.setAttribute("data-img", target.dataset.img);
@@ -181,7 +191,10 @@ class VendingMachineEvents {
             }
         }
         const finalItem = document.createElement("li");
-        finalItem.setAttribute("class", "cart-item");
+        finalItem.classList.add("cart-item");
+        if(target.dataset.item === "&#9733FE_Master&#9733") {
+            finalItem.classList.add("master");
+        }
         finalItem.setAttribute("data-item", target.dataset.item);
         finalItem.innerHTML = `
             <img src="./img/${target.dataset.img}" alt="${target.dataset.item}">
@@ -197,8 +210,8 @@ class VendingMachineEvents {
      */
     masterItemGenerator(target) {
         const masterItem = document.createElement("li");
-        masterItem.setAttribute("class", "cart-item");
-        masterItem.setAttribute("data-item", "FE_Master");
+        masterItem.classList.add("cart-item");
+        masterItem.setAttribute("data-item", "&#9733FE_Master&#9733");
         masterItem.setAttribute("data-img", "master.png");
         masterItem.setAttribute("data-count", 1);
         masterItem.setAttribute("data-cost", target.dataset.cost);
@@ -206,9 +219,6 @@ class VendingMachineEvents {
             <img src="./img/master.png" alt="FE_Master">
             <span class="drink-name">FE_Master</span>
             <span class="drink-count">1</span>
-            <button class="btn-sub" type="button">-</button>
-            <button class="btn-add" type="button">+</button>
-            <button class="btn-remove" type="button">x</button>
         `;
         return masterItem;
     }
@@ -225,7 +235,7 @@ class VendingMachineEvents {
      */
     randomItemGenerator(target) {
         const drinkItems = this.itemList.querySelectorAll("button");
-        const randomList = [];
+        const randomList = [5];
         const randIndex = [18, 36, 54, 72, 90, 100];
         for(let i=0; i<parseInt(target.dataset.count); i++) {
             const randNum = Math.floor(Math.random()*100) + 1;

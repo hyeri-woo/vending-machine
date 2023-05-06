@@ -486,6 +486,11 @@ main section {
   background-clip: padding-box;
   border: 3px solid transparent;
 }
+.gain-wrapper .list-finalCart li.master {
+  position: absolute;
+  width: 270px;
+  animation: master-rotate 2s ease-in-out infinite;
+}
 .gain-wrapper .total-price {
   padding-top: 6px;
   float: right;
@@ -615,4 +620,20 @@ main section {
 }
 .button-wrapper .btn-pause {
   width: 50px;
+}
+
+/* ------------------------------- FE MASTER animation */
+.focus-master {
+  position: absolute;
+  transform: translate(-100px, -60px);
+  z-index: -1;
+}
+
+@keyframes master-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }/*# sourceMappingURL=style.css.map */
