@@ -7,13 +7,12 @@ class StartScreenEvents {
         this.btnPause = document.querySelector(".btn-pause");
     }
 
-    async bindEvent() {
-        /** 
-         * 시작 화면 클릭 이벤트
-         *  1) 뒤의 자판기 화면을 보여준다
-         *  2) bgm을 시작한다. 
-         */
-        const bgmAudio = new Audio("./audio/bgm.mp3");
+    /** 
+     * 시작 화면 클릭 이벤트
+     *  1) 뒤의 자판기 화면을 보여준다
+     *  2) bgm을 시작한다. 
+     */
+    startEvent(bgmAudio) {
         this.header.addEventListener("click", (event) => {
             event.currentTarget.style.position = "static";
             event.currentTarget.style.cursor = "initial";
@@ -23,15 +22,17 @@ class StartScreenEvents {
             setTimeout(function() {
                 bgmAudio.loop = true;
                 bgmAudio.volume = 0.3;
-                //bgmAudio.play();
+                bgmAudio.play();
             }, 1500);
         }, {once: true});
+    }
 
-        /** 
-         * pause 버튼 클릭 이벤트
-         *  1) bgm이 나오고 있을 때 노래를 멈추고 button의 표시를 resume으로 바꾼다.
-         *  2) bgm이 멈췄을 때 노래를 시작하고 button의 표시를 pause로 바꾼다. 
-         */
+    /** 
+     * pause 버튼 클릭 이벤트
+     *  1) bgm이 나오고 있을 때 노래를 멈추고 button의 표시를 resume으로 바꾼다.
+     *  2) bgm이 멈췄을 때 노래를 시작하고 button의 표시를 pause로 바꾼다. 
+     */
+    pauseEvent(bgmAudio) {
         this.btnPause.addEventListener("click", () => {
             const noticePlaying = document.querySelector(".button-wrapper .notice-playing");
             if(bgmAudio.paused === true) {
@@ -46,6 +47,12 @@ class StartScreenEvents {
                 bgmAudio.pause();
             }
         })
+    }
+
+    bindEvent() {
+        const bgmAudio = new Audio("./audio/bgm.mp3");
+        this.startEvent(bgmAudio);
+        this.pauseEvent(bgmAudio);
     }
 }
 
