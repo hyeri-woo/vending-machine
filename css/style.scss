@@ -496,11 +496,6 @@ main {
             background-clip: padding-box;
             border: 3px solid transparent;
         }
-        li.master {
-            position: absolute;
-            width: 270px;
-            animation: master-rotate 2s ease-in-out infinite;
-        }
     }
     .total-price {
         padding-top: 6px;

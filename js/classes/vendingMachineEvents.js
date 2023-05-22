@@ -1,4 +1,3 @@
-import DrinkAnimationEvents from "./drinkAnimationEvents.js";
 class VendingMachineEvents {
     constructor() {
         // vending machine DOM
@@ -43,9 +42,6 @@ class VendingMachineEvents {
         // reset DOM
         this.btnReset = document.querySelector(".btn-reset");
         this.startCount = [];   // 음료수 갯수 배열
-
-        // drink animation generator
-        this.drinkAnimationEvents = new DrinkAnimationEvents();
     }
 
     /* string 돈을 number로 변환하는 함수 */
@@ -158,6 +154,7 @@ class VendingMachineEvents {
             currentItem.querySelector(".drink-count").textContent = currentItem.dataset.count;
             new Audio("./audio/modal-click.mp3").play();
         });
+
         // btn-remove 이벤트
         // 1) 해당 음료수 active 클래스 삭제
         // 2) 잔액 업데이트 (+ 해당 음료수 가격 * 장바구니 안 해당 음료수 수량)
@@ -235,7 +232,7 @@ class VendingMachineEvents {
      */
     randomItemGenerator(target) {
         const drinkItems = this.itemList.querySelectorAll("button");
-        const randomList = [5];
+        const randomList = [];
         const randIndex = [18, 36, 54, 72, 90, 100];
         for(let i=0; i<parseInt(target.dataset.count); i++) {
             const randNum = Math.floor(Math.random()*100) + 1;
