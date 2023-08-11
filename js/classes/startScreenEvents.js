@@ -14,8 +14,28 @@ class StartScreenEvents {
     this.slot.style.display = "none";
   }
 
+  startMusic(bgmAudio) {
+    const noticePlaying = document.querySelector(
+      ".button-wrapper .notice-playing"
+    );
+    this.btnPause.querySelector(".text").textContent = "||";
+    noticePlaying.innerHTML = "bgm is playing ~ &#9834";
+    bgmAudio.play();
+  }
+
+  pasueMusic(bgmAudio) {
+    const noticePlaying = document.querySelector(
+      ".button-wrapper .notice-playing"
+    );
+    this.btnPause.querySelector(".text").innerHTML = "&#9654";
+    noticePlaying.textContent = "no bgm playing";
+    bgmAudio.pause();
+  }
+
   /**
    * 시작 화면 포커스 이벤트
+   * 1) Tab을 눌렀을시 btnPress만 포커스되게 한다.
+   * 2) Enter 눌렀을 시 화면클릭한 것 처럼 메인화면으로 간다.
    */
   focusEvent(bgmAudio) {
     this.header.addEventListener("keydown", (event) => {
@@ -26,10 +46,19 @@ class StartScreenEvents {
         this.removeStartScreen(event);
       }
     });
+  }
 
+  /**
+   * bgm 키보드 접근
+   * s를 눌렀을 시 bgm을 껐다 켰다 할 수 있다.
+   */
+  keyboardEvent(bgmAudio) {
     document.addEventListener("keydown", (event) => {
-      console.log(event.keycode);
-      //   if (bgmAudio.paused === true && event.key === '') {
+      if (bgmAudio.paused === true && event.key.toLowerCase() === "s") {
+        this.startMusic(bgmAudio);
+      } else if (bgmAudio.paused === false && event.key.toLowerCase() === "s") {
+        this.pasueMusic(bgmAudio);
+      }
     });
   }
 
@@ -61,21 +90,10 @@ class StartScreenEvents {
    */
   pauseEvent(bgmAudio) {
     this.btnPause.addEventListener("click", () => {
-      const noticePlaying = document.querySelector(
-        ".button-wrapper .notice-playing"
-      );
       if (bgmAudio.paused === true) {
-        this.btnPause.querySelector(".text").textContent = "||";
-        noticePlaying.innerHTML = "bgm is playing ~ &#9834";
-        this.btnPause.querySelector(".notice-text").textContent =
-          "music started";
-        bgmAudio.play();
+        this.startMusic(bgmAudio);
       } else {
-        this.btnPause.querySelector(".text").innerHTML = "&#9654";
-        noticePlaying.textContent = "no bgm playing";
-        this.btnPause.querySelector(".notice-text").textContent =
-          "music paused";
-        bgmAudio.pause();
+        this.pasueMusic(bgmAudio);
       }
     });
   }
@@ -83,6 +101,7 @@ class StartScreenEvents {
   bindEvent() {
     const bgmAudio = new Audio("./audio/bgm.mp3");
     this.focusEvent(bgmAudio);
+    this.keyboardEvent(bgmAudio);
     this.startEvent(bgmAudio);
     this.pauseEvent(bgmAudio);
   }
