@@ -2,9 +2,35 @@ class StartScreenEvents {
   constructor() {
     this.header = document.querySelector("header");
     this.logo = this.header.querySelector("h1");
-    this.pressStart = this.header.querySelector(".btn-press");
+    this.btnPress = this.header.querySelector(".btn-press");
     this.slot = this.header.querySelector(".slot-wrapper");
     this.btnPause = document.querySelector(".btn-pause");
+  }
+
+  removeStartScreen(event) {
+    event.currentTarget.style.position = "static";
+    event.currentTarget.style.cursor = "initial";
+    this.btnPress.style.display = "none";
+    this.slot.style.display = "none";
+  }
+
+  /**
+   * 시작 화면 포커스 이벤트
+   */
+  focusEvent(bgmAudio) {
+    this.header.addEventListener("keydown", (event) => {
+      if (event.key === "Tab") {
+        event.preventDefault();
+        this.btnPress.focus();
+      } else if (event.key === "Enter") {
+        this.removeStartScreen(event);
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      console.log(event.keycode);
+      //   if (bgmAudio.paused === true && event.key === '') {
+    });
   }
 
   /**
@@ -16,10 +42,7 @@ class StartScreenEvents {
     this.header.addEventListener(
       "click",
       (event) => {
-        event.currentTarget.style.position = "static";
-        event.currentTarget.style.cursor = "initial";
-        this.pressStart.style.display = "none";
-        this.slot.style.display = "none";
+        this.removeStartScreen(event);
         new Audio("./audio/start.mp3").play();
         setTimeout(function () {
           bgmAudio.loop = true;
@@ -59,6 +82,7 @@ class StartScreenEvents {
 
   bindEvent() {
     const bgmAudio = new Audio("./audio/bgm.mp3");
+    this.focusEvent(bgmAudio);
     this.startEvent(bgmAudio);
     this.pauseEvent(bgmAudio);
   }

@@ -25,8 +25,8 @@ class VendingMachineEvents {
       })
     );
 
-    this.modal.addEventListener("click", (e) => {
-      if (e.target.nodeName === "DIALOG") {
+    this.modal.addEventListener("click", (event) => {
+      if (event.target.nodeName === "DIALOG") {
         this.modal.close();
       }
     });

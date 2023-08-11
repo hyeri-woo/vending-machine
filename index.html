@@ -11,7 +11,7 @@
 </head>
 <body>
     <!-- header -->
-    <header tabindex="-1" role="dialog">
+    <header role="dialog">
         <h1><img src="./img/logo.png" alt="FRONT-END logo"></h1>
         <button class="btn-press"><img src="./img/press-start.png" alt="press start"></button>
         <div class="slot-wrapper">
@@ -22,6 +22,12 @@
             <div></div>
         </div>
     </header>
+    <!-- button wrapper -->
+    <div class="button-wrapper">
+        <p class="notice-playing">bgm is playing ~ &#9834</p>
+        <button class="btn-pause" type="button"><span class="text">||</span><span class="a11y-hidden notice-text">music started</span></button>
+        <button class="btn-reset" type="button">reset</button>
+    </div>
     <main>
         <!-- section: vending -->
         <section class="section-vending">
@@ -73,12 +79,6 @@
         <button class="btn-cancel" type="button">Cancel</button>
         <button class="btn-yes" type="button">Yes</button>
     </dialog>
-    <!-- button wrapper -->
-    <div class="button-wrapper">
-        <p class="notice-playing">bgm is playing ~ &#9834</p>
-        <button class="btn-pause" type="button"><span class="text">||</span><span class="a11y-hidden notice-text">music started</span></button>
-        <button class="btn-reset" type="button">reset</button>
-    </div>
     <script type="module" src="js/index.js"></script>
 </body>
 </html>
