@@ -1,5 +1,4 @@
-/* variables */
-/* common */
+/* variables */ /* common */
 @import url("https://cdn.jsdelivr.net/npm/galmuri@latest/dist/galmuri.css");
 * {
   font-family: "Galmuri9";
@@ -81,11 +80,13 @@ header h1 img {
      object-fit: contain;
   box-shadow: 3px 3px 0px #000972;
 }
-header h2 img {
+header .btn-press {
+  margin-top: 50px;
+}
+header .btn-press img {
   width: 500px;
   box-shadow: none;
   animation: blinking 1s ease-in-out infinite alternate;
-  padding-top: 50px;
 }
 header .slot-wrapper {
   display: flex;
@@ -502,8 +503,10 @@ main section {
   header h1 img {
     width: 360px;
   }
-  header h2 img {
-    padding-top: 20px;
+  header .btn-press {
+    margin-top: 20px;
+  }
+  header .btn-press img {
     width: 300px;
   }
   header .slot-wrapper div {
@@ -519,33 +522,21 @@ main section {
     padding-bottom: 69px;
   }
 }
-/* ------------------------------- article:modal */
-.modal-wrapper {
-  display: none;
-  position: fixed;
-  background: rgba(255, 251, 242, 0.7);
-  width: 100vw;
-  height: 100vh;
-  top: 0;
-}
-
-.modal-wrapper.on {
-  display: block;
-}
-
-.article-modal {
-  top: 35%;
-  left: calc(50% - 150px);
+/* ------------------------------- dialog: modal */
+dialog {
   width: 300px;
   border: 3px solid #000972;
   box-shadow: 3px 3px 0px #000972;
   overflow: hidden;
-  padding-bottom: 10px;
+  padding: 0 0 10px 0;
   text-align: center;
   position: fixed;
   background: #FFF780;
 }
-.article-modal h2 {
+dialog::backdrop {
+  background: rgba(255, 251, 242, 0.5);
+}
+dialog h2 {
   padding: 10px;
   border-top: 3px solid #63FEBA;
   border-bottom: 3px solid #8854F4;
@@ -553,7 +544,7 @@ main section {
   color: white;
   font-size: 15px;
 }
-.article-modal p {
+dialog p {
   margin: 10px;
   padding: 10px;
   color: white;
@@ -563,7 +554,7 @@ main section {
   border-top: 4px solid #000972;
   border-left: 4px solid #000972;
 }
-.article-modal button {
+dialog button {
   background: #8854F4;
   border: 1px solid #000972;
   box-shadow: 2px 2px 0px #000972;
@@ -572,15 +563,15 @@ main section {
   width: 70px;
   border-radius: 5px;
 }
-.article-modal button:hover {
+dialog button:hover {
   background: #FF8E58;
 }
-.article-modal button:active {
+dialog button:active {
   box-shadow: none;
   transform: translate(2px, 2px);
   transition: all 0.2s;
 }
-.article-modal .btn-cancel {
+dialog .btn-cancel {
   margin-right: 10px;
 }
 

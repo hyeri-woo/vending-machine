@@ -5,14 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vending Machine</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.2.0/redux.js"></script>
     <link rel="icon" href="./img/favicon.ico">
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
     <!-- header -->
-    <header>
+    <header tabindex="-1" role="dialog">
         <h1><img src="./img/logo.png" alt="FRONT-END logo"></h1>
-        <h2><img src="./img/press-start.png" alt="press start"></h2>
+        <button class="btn-press"><img src="./img/press-start.png" alt="press start"></button>
         <div class="slot-wrapper">
             <div></div>
             <div></div>
@@ -27,50 +28,7 @@
             <h2 class="a11y-hidden">밴딩머신</h2>
             <!-- 음료수 리스트 -->
             <ul class="list-drink">
-                <!-- js active으로 조절 -->
-                <!-- js soldout으로 조절 -->
-                <!-- <li><button class="btn-item" type="button" data-type="HTML_5">
-                    <span class="drink-amount"></span>
-                    <img src="./img/html.png" alt="HTML 음료수">
-                    <span class="drink-name">HTML_5</span>
-                    <span class="drink-price"><span class="display-circle"></span>1000원</span>
-                    <strong class="soldout-text"><span>품절</span></strong>
-                </button></li>
-                <li><button class="btn-item" type="button" data-type="CSS_3">
-                    <span class="drink-amount"></span>
-                    <img src="./img/css.png" alt="CSS 음료수">
-                    <span class="drink-name">CSS_3</span>
-                    <span class="drink-price"><span class="display-circle"></span>1000원</span>
-                    <strong class="soldout-text"><span>품절</span></strong>
-                </button></li>
-                <li><button class="btn-item" type="button" data-type="JavaScript">
-                    <span class="drink-amount"></span>
-                    <img src="./img/js.png" alt="JavaScript 음료수">
-                    <span class="drink-name">JavaScript</span>
-                    <span class="drink-price"><span class="display-circle"></span>1000원</span>
-                    <strong class="soldout-text"><span>품절</span></strong>
-                </button></li>
-                <li><button class="btn-item" type="button" data-type="Vue_JS">
-                    <span class="drink-amount"></span>
-                    <img src="./img/vue.png" alt="Vue 음료수">
-                    <span class="drink-name">Vue_JS</span>
-                    <span class="drink-price"><span class="display-circle"></span>1000원</span>
-                    <strong class="soldout-text"><span>품절</span></strong>
-                </button></li>
-                <li><button class="btn-item" type="button" data-type="React_JS">
-                    <span class="drink-amount"></span>
-                    <img src="./img/react.png" alt="React 음료수">
-                    <span class="drink-name">React_JS</span>
-                    <span class="drink-price"><span class="display-circle"></span>1000원</span>
-                    <strong class="soldout-text"><span>품절</span></strong>
-                </button></li>
-                <li><button class="btn-item" type="button" data-type="TypeScript">
-                    <span class="drink-amount"></span>
-                    <img src="./img/ts.png" alt="TypeScript 음료수">
-                    <span class="drink-name">TypeScript</span>
-                    <span class="drink-price"><span class="display-circle"></span>1000원</span>
-                    <strong class="soldout-text"><span>품절</span></strong>
-                </button></li> -->
+                <!-- js active, soldout으로 조절 -->
             </ul>
             <!-- 계산대 -->
             <div class="counter-wrapper">
@@ -87,14 +45,6 @@
                 <button class="btn-payment" type="button">입금</button>
                 <!-- 현재 카트 -->
                 <ul class="list-currentCart">
-                    <!-- <li class="cart-item" data-type="Orange_Cola">
-                            <img src="./img/html.png" alt="오리지널 콜라">
-                            <span class="drink-name">Original_Cola</span>
-                            <span class="drink-count">1</span>
-                            <button class="btn-sub" type="button">-</button>
-                            <button class="btn-add" type="button">+</button>
-                            <button class="btn-remove" type="button">x</button>
-                    </li> -->
                 </ul>
                 <!-- 획득 버튼 -->
                 <button class="btn-gain" type="button">획득</button>
@@ -111,30 +61,18 @@
             <div class="gain-wrapper">
                 <h3>획득한 음료</h3>
                 <ul class="list-finalCart">
-                    <!-- <li class="cart-item">
-                        <img src="./img/red.png" alt="오리지널 콜라">
-                        <span class="drink-name">Original_Cola</span>
-                        <span class="drink-count">1</span>
-                    </li>
-                    <li class="cart-item">
-                        <img src="./img/green.png" alt="초록 콜라">
-                        <span class="drink-name">Green_Cola</span>
-                        <span class="drink-count">2</span>
-                    </li> -->
                 </ul>
                 <p class="total-price">총금액: <span>0원</span></p>
             </div>
         </section>
     </main>
-    <!-- article: modal -->
-    <div class="modal-wrapper">
-        <article class="article-modal">
-            <h2>제목</h2>
-            <p>설명</p>
-            <button class="btn-cancel" type="button">Cancel</button>
-            <button class="btn-yes" type="button">Yes</button>
-        </article>
-    </div>
+    <!-- modal -->
+    <dialog>
+        <h2>제목</h2>
+        <p>설명</p>
+        <button class="btn-cancel" type="button">Cancel</button>
+        <button class="btn-yes" type="button">Yes</button>
+    </dialog>
     <!-- button wrapper -->
     <div class="button-wrapper">
         <p class="notice-playing">bgm is playing ~ &#9834</p>

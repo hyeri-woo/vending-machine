@@ -1,62 +1,6 @@
-/* variables */
-$navy-color: #000972;
-$mint-color: #63FEBA;
-$pink-color: #FF79AC;
-$yellow-color: #FFF780;
-$blue-color: #669AFF;
-$purple-color: #8854F4;
-$orange-color: #FF8E58;
-$border-color: #BDBDBD;
-$text-color: #333333;
-
 @import "media";
-
-/* common */
-@import url('https://cdn.jsdelivr.net/npm/galmuri@latest/dist/galmuri.css');
-
-* {
-    font-family: 'Galmuri9';
-    font-weight: 500;
-    font-size: 10px;
-    box-sizing: border-box;
-}
-
-.a11y-hidden {
-    clip: rect(1px, 1px, 1px, 1px);
-    clip-path: inset(50%);
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-}
-
-body, header, main, img, p, h1, h2, h3, button, ul, li {
-    margin: 0;
-    padding: 0;
-    min-width: 0;
-    min-height: 0;
-}
-
-ul li{
-    list-style: none;
-}
-
-input {
-    border: none;
-}
-
-button {
-    background: none;
-    border: none;
-    box-shadow: none;
-    cursor: pointer;
-}
-
-body {
-    background: $pink-color;
-}
+@import "variables";
+@import "common";
 
 /* ------------------------------- start screen animations */
 @keyframes blinking {
@@ -93,11 +37,13 @@ header {
         object-fit: contain;
         box-shadow: 3px 3px 0px $navy-color;
     }
-    h2 img {
-        width: 500px;
-        box-shadow: none;
-        animation: blinking 1s ease-in-out infinite alternate;
-        padding-top: 50px;
+    .btn-press {
+        margin-top: 50px;
+        img {
+            width: 500px;
+            box-shadow: none;
+            animation: blinking 1s ease-in-out infinite alternate;
+        }
     }
     .slot-wrapper {
         display: flex;
@@ -513,9 +459,12 @@ main {
         h1 img {
             width: 360px;
         }
-        h2 img {
-            padding-top: 20px;
-            width: 300px;
+        .btn-press  {
+            margin-top: 20px;
+            img {
+                
+                width: 300px;
+            }
         }
         .slot-wrapper div {
             width: 27px;
@@ -532,31 +481,19 @@ main {
     }
 }
 
-/* ------------------------------- article:modal */
-.modal-wrapper {
-    display: none;
-    position: fixed;
-    background: rgba(255, 251, 242, 0.7);
-    width: 100vw;
-    height: 100vh;
-    top: 0;
-}
-
-.modal-wrapper.on {
-    display: block;
-}
-
-.article-modal {
-    top: 35%;
-    left: calc(50% - 300px/2);
+/* ------------------------------- dialog: modal */
+dialog {
     width: 300px;
     border: 3px solid $navy-color;
     box-shadow: 3px 3px 0px $navy-color;
     overflow: hidden;
-    padding-bottom: 10px;
+    padding: 0 0 10px 0;
     text-align: center;
     position: fixed;
     background: $yellow-color;
+    &::backdrop {
+        background: rgba(255, 251, 242, 0.5);
+    }
     h2 {
         padding: 10px;
         border-top: 3px solid $mint-color;
@@ -577,7 +514,6 @@ main {
         border-left: 4px solid $navy-color;
     }
     button {
-        // margin-top: 20px;
         background: $purple-color;
         border: 1px solid $navy-color;
         box-shadow: 2px 2px 0px $navy-color;
@@ -633,18 +569,9 @@ main {
 }
 
 /* ------------------------------- FE MASTER animation */
-// .list-finalCart .master {
-//     top: 0;
-//     left: 0;
-//     position: absolute;
-//     width: 500px;
-// }
-
 .focus-master {
     position: absolute;
     transform: translate(-100px, -60px);
-    // top: 0;
-    // left: 0;
     z-index: -1;
 }
 
