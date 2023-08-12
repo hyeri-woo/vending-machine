@@ -12,8 +12,8 @@
 <body>
     <!-- header -->
     <header>
-        <h1><img src="./img/logo.png" alt="STUDY FRONT-END 밴딩머신" aria-label="STUDY FRONT-END 밴딩머신"></h1>
-        <button class="btn-press"><img src="./img/press-start.png" alt="press start" aria-label="시작하기 위해 화면을 클릭하거나 Enter를 누르세요."></button>
+        <h1><img src="./img/logo.png" alt="STUDY FRONT-END 밴딩머신"></h1>
+        <button class="btn-press" aria-label="시작 버튼"><img src="./img/press-start.png" alt="press start"><span class="a11y-hidden">시작하기 위해 화면을 클릭하거나 엔터를 누르세요.</span></button>
         <div class="slot-wrapper">
             <div></div>
             <div></div>
@@ -24,9 +24,10 @@
     </header>
     <!-- button wrapper -->
     <div class="button-wrapper">
-        <p class="notice-playing" aria-label="이 사이트는 bgm이 자동으로 재생됩니다. 멈추거나 다시 재생하기 위해서는 s를 눌러주세요.">bgm is playing ~ &#9834</p>
-        <button class="btn-pause" type="button"><span class="text">||</span></button>
-        <button class="btn-reset" type="button">reset</button>
+        <p class="a11y-hidden">이 사이트는 bgm이 자동으로 재생됩니다. 멈추거나 다시 재생하기 위해서는 버튼을 누르거나 s를 눌러주세요.</p>
+        <p class="notice-playing" aria-live="polite">bgm is playing ~ &#9834</p>
+        <button class="btn-pause" type="button" aria-label="bgm 멈춤 버튼" aria-live="polite"><span class="text">||</span></button>
+        <button class="btn-reset" type="button" aria-label="밴딩머신 리셋 버튼">reset</button>
     </div>
     <main>
         <!-- section: vending -->
@@ -40,27 +41,29 @@
             <div class="counter-wrapper">
                 <!-- 잔액 표시 -->
                 <p class="inserted">
-                    잔액: <span>0원</span>
+                    잔액: <span class="money">0원</span> <span class="a11y-hidden">이 남았습니다.</span>
                 </p>
                 <!-- 거스름돈 반환 -->
-                <button class="btn-return" type="button">거스름돈 반환</button>
+                <button class="btn-return" type="button" aria-label="잔액 반환 버튼">거스름돈 반환</button>
                 <!-- 입금액 입력 -->
-                <label class="a11y-hidden" for="inputPayment">입금액 입력</label>
-                <input class="input-payment" id="inputPayment" type="number" step="1000" placeholder="입금액 입력" min="0" max="100000" required>
-                <!-- 입금 버튼 -->
-                <button class="btn-payment" type="button">입금</button>
+                <form class="form-payment">
+                    <label class="a11y-hidden" for="inputPayment">입금액 입력</label>
+                    <input class="input-payment" id="inputPayment" type="number" step="1000" placeholder="입금액 입력" min="0" max="100000" required>
+                    <!-- 입금 버튼 -->
+                    <button class="btn-payment" type="submit" aria-label="입금 버튼">입금</button>
+                </form>
                 <!-- 현재 카트 -->
                 <ul class="list-currentCart">
                 </ul>
                 <!-- 획득 버튼 -->
-                <button class="btn-gain" type="button">획득</button>
+                <button class="btn-gain" type="button" aria-label="장바구니 안 음료수 획득 버튼">획득</button>
             </div>
         </section>
         <!-- section: reciept -->
         <section class="section-reciept">
             <!-- 소지금 -->
             <div class="possessed">
-                <p>소지금: <span>50,000원</span></p>
+                <p>소지금: <span class="money">50,000원</span> <span class="a11y-hidden">이 남았습니다.</span> </p>
             </div>
             <h2 class="a11y-hidden">영수증</h2>
             <!-- 획득한 음료 -->
@@ -68,16 +71,16 @@
                 <h3>획득한 음료</h3>
                 <ul class="list-finalCart">
                 </ul>
-                <p class="total-price">총금액: <span>0원</span></p>
+                <p class="total-price" aria-live="polite">총금액: <span>0원</span></p>
             </div>
         </section>
     </main>
     <!-- modal -->
-    <dialog>
+    <dialog aria-live="polite">
         <h2>제목</h2>
         <p>설명</p>
-        <button class="btn-cancel" type="button">Cancel</button>
-        <button class="btn-yes" type="button">Yes</button>
+        <button class="btn-cancel" type="button" aria-label="모달창 취소 버튼">Cancel</button>
+        <button class="btn-yes" type="button" aria-label="모달창 긍정 버튼">Yes</button>
     </dialog>
     <script type="module" src="js/index.js"></script>
 </body>

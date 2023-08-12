@@ -19,8 +19,9 @@ class StartScreenEvents {
       ".button-wrapper .notice-playing"
     );
     this.btnPause.querySelector(".text").textContent = "||";
+    this.btnPause.setAttribute("aria-label", "bgm 멈춤 버튼");
     noticePlaying.innerHTML = "bgm is playing ~ &#9834";
-    bgmAudio.play();
+    // bgmAudio.play();
   }
 
   pasueMusic(bgmAudio) {
@@ -28,6 +29,7 @@ class StartScreenEvents {
       ".button-wrapper .notice-playing"
     );
     this.btnPause.querySelector(".text").innerHTML = "&#9654";
+    this.btnPause.setAttribute("aria-label", "bgm 시작 버튼");
     noticePlaying.textContent = "no bgm playing";
     bgmAudio.pause();
   }
@@ -72,11 +74,11 @@ class StartScreenEvents {
       "click",
       (event) => {
         this.removeStartScreen(event);
-        new Audio("./audio/start.mp3").play();
+        // new Audio("./audio/start.mp3").play();
         setTimeout(function () {
           bgmAudio.loop = true;
           bgmAudio.volume = 0.3;
-          bgmAudio.play();
+          //   bgmAudio.play();
         }, 1500);
       },
       { once: true }

@@ -2,7 +2,7 @@ class VendingMachineEvents {
   constructor() {
     // vending machine DOM
     const vendingMachine = document.querySelector(".section-vending");
-    this.inserted = vendingMachine.querySelector(".inserted span");
+    this.inserted = vendingMachine.querySelector(".inserted .money");
     this.itemList = vendingMachine.querySelector(".list-drink");
     this.inputPayment = vendingMachine.querySelector(".input-payment");
     this.btnReturn = vendingMachine.querySelector(".btn-return");
@@ -12,7 +12,7 @@ class VendingMachineEvents {
 
     // reciept DOM
     const reciept = document.querySelector(".section-reciept");
-    this.possessed = reciept.querySelector(".possessed span");
+    this.possessed = reciept.querySelector(".possessed .money");
     this.listFinal = reciept.querySelector(".list-finalCart");
     this.totalPrice = reciept.querySelector(".total-price span");
 
@@ -79,6 +79,29 @@ class VendingMachineEvents {
     return new Intl.NumberFormat().format(num_money) + "원";
   }
 
+  /* aria-live를 글 전체에다 적용하는 함수 */
+  allAriaLive(target) {
+    target.setAttribute("aria-live", "off");
+    target.offsetWidth;
+    target.setAttribute("aria-live", "polite");
+    setTimeout(() => {
+      target.removeAttribute("aria-live");
+    }, 1000);
+  }
+
+  /* 이밴트를 스크린리더를 통해 말해주는 함수 */
+  announceMessage(message) {
+    const liveRegion = document.createElement("div");
+    liveRegion.setAttribute("role", "region");
+    liveRegion.setAttribute("aria-live", "assertive");
+    liveRegion.classList.add("a11y-hidden");
+    liveRegion.textContent = message;
+    document.body.appendChild(liveRegion);
+    setTimeout(() => {
+      liveRegion.remove();
+    }, 3000);
+  }
+
   /* -------- MODAL FUNCTION -------- */
   /** Modal 생성 함수
    * 1) 모달창을 켜준다.
@@ -92,6 +115,8 @@ class VendingMachineEvents {
       this.modal.showModal();
       this.modal.querySelector("h2").textContent = title;
       this.modal.querySelector("p").textContent = this.msgWarning.get(title);
+      this.allAriaLive(this.modal.querySelector("h2"));
+      this.allAriaLive(this.modal.querySelector("p"));
       new Audio("./audio/notify.mp3").play();
       this.modal.querySelector(".btn-cancel").addEventListener("click", () => {
         resolve(0);
@@ -125,10 +150,10 @@ class VendingMachineEvents {
             parseInt(target.dataset.cost)
         );
         target.dataset.count = parseInt(target.dataset.count) + 1;
-        target.querySelector(".drink-amount").textContent =
+        target.querySelector(".drink-amount .money").textContent =
           target.dataset.count;
         currentItem.dataset.count = parseInt(currentItem.dataset.count) - 1;
-        currentItem.querySelector(".drink-count").textContent =
+        currentItem.querySelector(".drink-count .money").textContent =
           currentItem.dataset.count;
         if (target.classList.contains("soldout")) {
           target.classList.remove("soldout");
@@ -160,7 +185,8 @@ class VendingMachineEvents {
         this.moneyToNumber(this.inserted.textContent) - target.dataset.cost
       );
       target.dataset.count = parseInt(target.dataset.count) - 1;
-      target.querySelector(".drink-amount").textContent = target.dataset.count;
+      target.querySelector(".drink-amount .money").textContent =
+        target.dataset.count;
       currentItem.dataset.count = parseInt(currentItem.dataset.count) + 1;
       currentItem.querySelector(".drink-count").textContent =
         currentItem.dataset.count;
@@ -187,7 +213,7 @@ class VendingMachineEvents {
         );
         target.dataset.count =
           parseInt(target.dataset.count) + parseInt(currentItem.dataset.count);
-        target.querySelector(".drink-amount").textContent =
+        target.querySelector(".drink-amount .money").textContent =
           target.dataset.count;
         if (target.classList.contains("soldout")) {
           target.classList.remove("soldout");
@@ -196,6 +222,20 @@ class VendingMachineEvents {
         currentItem.remove();
         new Audio("./audio/modal-click.mp3").play();
       });
+  }
+
+  btnKeyboard(currentItem) {
+    currentItem.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowLeft") {
+        currentItem.querySelector(".btn-sub").click();
+        this.allAriaLive(currentItem);
+      } else if (event.key === "ArrowRight") {
+        currentItem.querySelector(".btn-add").click();
+        this.allAriaLive(currentItem);
+      } else if (event.key === "ArrowUp") {
+        currentItem.querySelector(".btn-remove").click();
+      }
+    });
   }
 
   /* -------- Item Generator Functions -------- */
@@ -210,24 +250,26 @@ class VendingMachineEvents {
     for (let i of this.listCurrent.querySelectorAll("li")) {
       if (i.dataset.item === target.dataset.item) {
         i.dataset.count = parseInt(i.dataset.count) + 1;
-        i.querySelector(".drink-count").textContent = i.dataset.count;
+        i.querySelector(".drink-count .money").textContent = i.dataset.count;
         return;
       }
     }
     const currentItem = document.createElement("li");
     currentItem.classList.add("cart-item");
     currentItem.setAttribute("class", "cart-item");
+    currentItem.setAttribute("tabindex", 0);
     currentItem.setAttribute("data-item", target.dataset.item);
     currentItem.setAttribute("data-img", target.dataset.img);
     currentItem.setAttribute("data-count", 1);
     currentItem.setAttribute("data-cost", target.dataset.cost);
     currentItem.innerHTML = `
-            <img src="./img/${target.dataset.img}" alt="${target.dataset.item}">
-            <span class="drink-name">${target.dataset.item}</span>
-            <span class="drink-count">1</span>
-            <button class="btn-sub" type="button">-</button>
-            <button class="btn-add" type="button">+</button>
-            <button class="btn-remove" type="button">x</button>
+        <img src="./img/${target.dataset.img}" alt="">
+        <span class="drink-name"><span class="a11y-hidden">장바구니에 </span>${target.dataset.item}</span>
+        <span class="drink-count"><span class="money">1</span><span class="a11y-hidden">개가 있습니다.</span></span>
+        <span class="a11y-hidden">수량을 조절하기 위해서 좌우 방향 키보드를 사용하시고 아이템을 장바구니에서 삭제하기 위해서는 위쪽 화살표를 눌러주세요.</span>
+        <button class="btn-sub" type="button">-</button>
+        <button class="btn-add" type="button">+</button>
+        <button class="btn-remove" type="button">x</button>
         `;
     this.listCurrent.append(currentItem);
 
@@ -235,6 +277,7 @@ class VendingMachineEvents {
     this.onBtnSub(currentItem, target);
     this.onBtnAdd(currentItem, target);
     this.onBtnRemove(currentItem, target);
+    this.btnKeyboard(currentItem);
   }
 
   /** final 장바구니 음료수 생성 함수
@@ -244,8 +287,8 @@ class VendingMachineEvents {
   finalItemGenerator(target, isRandom = false) {
     for (let i of this.listFinal.querySelectorAll("li")) {
       if (i.dataset.item === target.dataset.item) {
-        i.querySelector(".drink-count").textContent =
-          parseInt(i.querySelector(".drink-count").textContent) +
+        i.querySelector(".drink-count .money").textContent =
+          parseInt(i.querySelector(".drink-count .money").textContent) +
           (isRandom ? 1 : parseInt(target.dataset.count));
         return;
       }
@@ -332,7 +375,8 @@ class VendingMachineEvents {
    * 4) 입금액이 정상적으로 입금되면 입금창은 초기화
    */
   onBtnPayment() {
-    this.btnPayment.addEventListener("click", async () => {
+    this.btnPayment.addEventListener("click", async (event) => {
+      event.preventDefault();
       const inputCost = this.moneyToNumber(this.inputPayment.value); // 입금액
       const possessedVal = this.moneyToNumber(this.possessed.textContent); // 소지금
       const insertedVal = this.moneyToNumber(this.inserted.textContent); // 잔액
@@ -347,6 +391,8 @@ class VendingMachineEvents {
             insertedVal + inputCost
           );
           this.inputPayment.value = null;
+          this.allAriaLive(document.querySelector(".possessed"));
+          this.allAriaLive(document.querySelector(".inserted"));
           new Audio("./audio/coin-collect.mp3").play();
         } else {
           // 입금액이 소지금보다 많다면 경고창 출력
@@ -372,6 +418,8 @@ class VendingMachineEvents {
           possessedVal + insertedVal
         );
         this.inserted.textContent = this.numberToMoney(0);
+        this.allAriaLive(document.querySelector(".possessed"));
+        this.allAriaLive(document.querySelector(".inserted"));
         new Audio("./audio/coin-return.mp3").play();
       } else {
         this.onModal("No Money to Return");
@@ -393,7 +441,9 @@ class VendingMachineEvents {
         const insertedVal = this.moneyToNumber(this.inserted.textContent); // 잔액
         const itemCost = parseInt(event.currentTarget.dataset.cost);
         const itemCount = parseInt(event.currentTarget.dataset.count);
-        const drinkCount = event.currentTarget.querySelector(".drink-amount");
+        const drinkCount = event.currentTarget.querySelector(
+          ".drink-amount .money"
+        );
         if (insertedVal >= itemCost) {
           this.inserted.textContent = this.numberToMoney(
             insertedVal - itemCost
@@ -402,6 +452,11 @@ class VendingMachineEvents {
           drinkCount.textContent = parseInt(itemCount - 1);
           item.setAttribute("data-count", itemCount - 1);
           item.classList.add("active");
+          this.allAriaLive(document.querySelector(".inserted"));
+          this.allAriaLive(event.currentTarget.querySelector(".drink-amount"));
+          this.announceMessage(
+            item.dataset.item + " 1개를 장바구니에 담았습니다."
+          );
         } else {
           this.onModal("No Enough Money");
         }
@@ -464,7 +519,8 @@ class VendingMachineEvents {
         item.classList.remove("soldout");
         item.disabled = false;
         item.dataset.count = this.startCount[index];
-        item.querySelector(".drink-amount").textContent = item.dataset.count;
+        item.querySelector(".drink-amount .money").textContent =
+          item.dataset.count;
       });
       this.listCurrent.querySelectorAll("li").forEach((item) => item.remove());
       this.listFinal.querySelectorAll("li").forEach((item) => item.remove());

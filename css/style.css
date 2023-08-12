@@ -285,8 +285,21 @@ main section {
 .counter-wrapper .btn-return {
   background: #669AFF;
 }
+.counter-wrapper .form-payment {
+  grid-column: 1/span 2;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 11px 12px;
+}
 .counter-wrapper .btn-payment {
   background: #8854F4;
+  color: white;
+  transition: all 0.2s;
+  box-shadow: 3px 3px 0px #000972;
+}
+.counter-wrapper .btn-payment:active {
+  box-shadow: none;
+  transform: translate(3px, 3px);
 }
 .counter-wrapper .input-payment {
   box-shadow: inset 3px 3px 0px #000972;
@@ -406,16 +419,21 @@ main section {
 .list-currentCart .btn-remove:hover {
   background: #63FEBA;
 }
-.list-currentCart .cart-item:hover .drink-count {
+.list-currentCart .cart-item:hover .drink-count,
+.list-currentCart .cart-item:focus .drink-count {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
   z-index: 10;
 }
-.list-currentCart .cart-item:hover::after {
+.list-currentCart .cart-item:hover::after,
+.list-currentCart .cart-item:focus::after {
   display: inline-block;
 }
-.list-currentCart .cart-item:hover .btn-sub, .list-currentCart .cart-item:hover .btn-add, .list-currentCart .cart-item:hover .btn-remove {
+.list-currentCart .cart-item:hover .btn-sub, .list-currentCart .cart-item:hover .btn-add, .list-currentCart .cart-item:hover .btn-remove,
+.list-currentCart .cart-item:focus .btn-sub,
+.list-currentCart .cart-item:focus .btn-add,
+.list-currentCart .cart-item:focus .btn-remove {
   display: inline-block;
 }
 .list-currentCart::-webkit-scrollbar {

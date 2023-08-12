@@ -243,8 +243,21 @@ main {
     .btn-return {
         background: $blue-color;
     }
+    .form-payment {
+        grid-column: 1 / span 2;
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 11px 12px;
+    }
     .btn-payment {
         background: $purple-color;
+        color: white;
+        transition: all 0.2s;
+        box-shadow: 3px 3px 0px $navy-color;
+        &:active {
+            box-shadow: none;
+            transform: translate(3px, 3px);
+        }
     }
     .input-payment {
         box-shadow: inset 3px 3px 0px $navy-color;
@@ -308,6 +321,12 @@ main {
     overflow-y: scroll;
     .cart-item {
         position: relative;
+        // & > button:nth-child(1) { 
+        //     display: flex;
+        //     justify-content: space-between;
+        //     align-items: center;
+        //     width: 100%;
+        // }
     }
     .cart-item::after {
         content: "";
@@ -360,7 +379,8 @@ main {
             background: $mint-color;
         }
     }
-    .cart-item:hover {
+    .cart-item:hover, 
+    .cart-item:focus {
         .drink-count {
             position: absolute;
             left: 50%;
