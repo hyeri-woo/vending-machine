@@ -38,7 +38,7 @@ class CartDrinkGenerator {
         target.querySelector(".drink-amount .money").textContent =
           target.dataset.count;
         currentItem.dataset.count = parseInt(currentItem.dataset.count) - 1;
-        currentItem.querySelector(".drink-count .money").textContent =
+        currentItem.querySelector(".drink-count").textContent =
           currentItem.dataset.count;
         if (target.classList.contains("soldout")) {
           target.classList.remove("soldout");
@@ -211,7 +211,7 @@ class CartDrinkGenerator {
     return masterItem;
   }
 
-  /** Random 음료수 생성 함수 (-> final 장바구니)
+  /** Random 음료수 생성 함수 (-> final 장vending-machine바구니)
    * 1) 10% 확률로 마스터 음료수 추가
    * 2) 각 18% 확률로 다른 음료수 추가
    *   - 1-18 -> 0: html
