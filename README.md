@@ -3,7 +3,7 @@
 ## 소개 및 개요
 * 프로젝트 기간: 2023.04 ~ 2023.05
 * 리팩토링 기간: 2023.07 ~ 2023.08
-* 배포 URL: [🔗Vending-Machine]([(https://hyeri-woo.github.io/vending-machine/)])
+* 배포 URL: [🔗Vending-Machine](https://hyeri-woo.github.io/vending-machine/)
 
 ## 프로젝트 설명
 * Vending Machine은 음료수 자판기 기능을 제공하는 반응형 웹 사이트입니다. 
